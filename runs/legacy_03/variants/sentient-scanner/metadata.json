@@ -1,0 +1,5 @@
+{
+  "name": "Sentient Scanner",
+  "description": "A high-performance, deterministic Canvas 2D visualization featuring a multi-layer particle flow field simulation with narrative-driven phases and a static HUD overlay.",
+  "requestFramePermissions": []
+}

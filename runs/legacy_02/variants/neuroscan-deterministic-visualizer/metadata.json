@@ -1,0 +1,5 @@
+{
+  "name": "NeuroScan Deterministic Visualizer",
+  "description": "A high-performance, deterministic Canvas 2D visualization featuring a scanning ring, risk hotspots, and dynamic threads. Uses React refs for state management to ensure 60fps+ performance without React render cycles.",
+  "requestFramePermissions": []
+}

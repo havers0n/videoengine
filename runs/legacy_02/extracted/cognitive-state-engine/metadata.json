@@ -1,0 +1,5 @@
+{
+  "name": "Cognitive State Engine",
+  "description": "A semantic visualization engine representing cognitive states as particles with confidence, uncertainty, and decay properties governed by a strict rule-based state machine.",
+  "requestFramePermissions": []
+}

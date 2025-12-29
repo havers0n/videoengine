@@ -1,0 +1,5 @@
+{
+  "name": "Risk Heatmap Scanner",
+  "description": "A deterministic, premium Canvas2D visualization featuring a 18s narrative of a risk scanning engine with fluid dynamics, hotspots, and data clustering.",
+  "requestFramePermissions": []
+}

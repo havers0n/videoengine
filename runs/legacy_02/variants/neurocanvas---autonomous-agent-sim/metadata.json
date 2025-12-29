@@ -1,0 +1,5 @@
+{
+  "name": "NeuroCanvas - Autonomous Agent Sim",
+  "description": "A deterministic canvas simulation of autonomous agents with goals, memory, and adaptive decision-making, powered by Gemini for scenario generation and agent analysis.",
+  "requestFramePermissions": []
+}

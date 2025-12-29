@@ -1,0 +1,5 @@
+{
+  "name": "Causal Risk Graph Engine",
+  "description": "A high-performance Canvas2D engine visualizing risk propagation through a causal graph with specific narrative phases.",
+  "requestFramePermissions": []
+}
