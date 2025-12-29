@@ -13,15 +13,17 @@
     "identify:junk": "node data/scripts/identify-junk.mjs",
     "dedup": "node data/scripts/dedup-by-content.mjs",
     "improve:scoring": "node data/scripts/improve-scoring.mjs",
-    "analyze:clean": "node data/scripts/clean-pipeline.mjs"
+    "analyze:clean": "node data/scripts/clean-pipeline.mjs",
+    "ingest": "node scripts/ingest.mjs",
+    "migrate:legacy": "node scripts/migrate-legacy.mjs"
   },
   "devDependencies": {
-    "ts-morph": "^24.0.0",
+    "adm-zip": "^0.5.16",
+    "csv-stringify": "^6.5.0",
     "fast-glob": "^3.3.2",
-    "csv-stringify": "^6.5.0"
+    "ts-morph": "^24.0.0"
   },
   "engines": {
     "node": ">=18.0.0"
   }
 }
-
