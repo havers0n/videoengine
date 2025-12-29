@@ -1,0 +1,1895 @@
+[
+  {
+    "variant": "autopoietic-observer",
+    "feature_events": [
+      {
+        "variant": "autopoietic-observer",
+        "feature": "has_teal",
+        "file": "App.tsx",
+        "line": 114,
+        "match": "teal/cyan color",
+        "snippet": "      {/* Sidebar / HUD */}\n      <div className=\"w-full md:w-80 flex-shrink-0 flex flex-col border-r border-slate-800 bg-slate-900/80 backdrop-blur-md z-10 p-4 gap-6 overflow-y-auto\">\n        <header>\n          <h1 className=\"text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500\">\n            AUTOPOIETIC OBSERVER\n          </h1>\n          <p className=\"text-xs text-slate-500 mt-1\">",
+        "kind": "regex"
+      },
+      {
+        "variant": "autopoietic-observer",
+        "feature": "has_red",
+        "file": "App.tsx",
+        "line": 127,
+        "match": "red color",
+        "snippet": "          <h2 className=\"text-xs font-semibold uppercase tracking-wider text-slate-400\">Observer Status</h2>\n          <div className={`p-3 rounded border ${\n            observerState.status === 'OBSERVING' ? 'border-blue-500/30 bg-blue-500/10' :\n            observerState.status === 'STABILIZING' ? 'border-red-500/30 bg-red-500/10' :\n            observerState.status === 'DISRUPTING' ? 'border-yellow-500/30 bg-yellow-500/10' :\n            'border-purple-500/30 bg-purple-500/10'\n          }`}>",
+        "kind": "regex"
+      },
+      {
+        "variant": "autopoietic-observer",
+        "feature": "has_ui_controls",
+        "file": "App.tsx",
+        "line": 191,
+        "match": "UI controls (button/slider/input)",
+        "snippet": "          </div>\n        </section>\n\n        <button \n          onClick={handleReset}\n          className=\"mt-auto w-full py-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded text-sm transition-colors\"\n        >",
+        "kind": "regex"
+      },
+      {
+        "variant": "autopoietic-observer",
+        "feature": "has_raf",
+        "file": "App.tsx",
+        "line": 91,
+        "match": "requestAnimationFrame",
+        "snippet": "        setObserverState({ ...engineRef.current.observer });\n      }\n\n      frameId = requestAnimationFrame(loop);\n    };\n\n    frameId = requestAnimationFrame(loop);",
+        "kind": "ast"
+      },
+      {
+        "variant": "autopoietic-observer",
+        "feature": "has_raf",
+        "file": "App.tsx",
+        "line": 94,
+        "match": "requestAnimationFrame",
+        "snippet": "      frameId = requestAnimationFrame(loop);\n    };\n\n    frameId = requestAnimationFrame(loop);\n\n    return () => {\n      running = false;",
+        "kind": "ast"
+      },
+      {
+        "variant": "autopoietic-observer",
+        "feature": "has_cancel_raf",
+        "file": "App.tsx",
+        "line": 98,
+        "match": "cancelAnimationFrame",
+        "snippet": "\n    return () => {\n      running = false;\n      cancelAnimationFrame(frameId);\n    };\n  }, []);\n",
+        "kind": "ast"
+      },
+      {
+        "variant": "autopoietic-observer",
+        "feature": "has_canvas_2d",
+        "file": "components/SimulationCanvas.tsx",
+        "line": 16,
+        "match": "getContext('2d')",
+        "snippet": "    const canvas = canvasRef.current;\n    if (!canvas) return;\n\n    const ctx = canvas.getContext('2d', { alpha: false });\n    if (!ctx) return;\n\n    // Cache color strings to actual fill styles or integers for speed",
+        "kind": "ast"
+      },
+      {
+        "variant": "autopoietic-observer",
+        "feature": "has_raf",
+        "file": "components/SimulationCanvas.tsx",
+        "line": 58,
+        "match": "requestAnimationFrame",
+        "snippet": "      ctx.putImageData(imgData, 0, 0);\n      \n      // Scale up using CSS, but let's ensure the canvas resolution matches the engine\n      animationId = requestAnimationFrame(render);\n    };\n\n    render();",
+        "kind": "ast"
+      },
+      {
+        "variant": "autopoietic-observer",
+        "feature": "has_cancel_raf",
+        "file": "components/SimulationCanvas.tsx",
+        "line": 63,
+        "match": "cancelAnimationFrame",
+        "snippet": "\n    render();\n\n    return () => cancelAnimationFrame(animationId);\n  }, [engine, colors]); // Re-bind if colors change heavily, though engine is mutable ref mostly\n\n  return (",
+        "kind": "ast"
+      },
+      {
+        "variant": "autopoietic-observer",
+        "feature": "has_red",
+        "file": "engine/CyclicAutomaton.ts",
+        "line": 127,
+        "match": "red color",
+        "snippet": "    const maxEntropy = Math.log2(this.params.states);\n    const normalizedEntropy = maxEntropy > 0 ? entropy / maxEntropy : 0;\n\n    // Coherence (Simplified): Low flux + High Entropy implies structured cyclic patterns\n    // We can also approximate coherence by looking at how clustered things are, \n    // but Flux vs Entropy gives a good \"Phase Space\" location.\n    // Let's define Coherence as 1 - Flux (Stability) * Normalized Entropy.",
+        "kind": "regex"
+      },
+      {
+        "variant": "autopoietic-observer",
+        "feature": "has_clusters",
+        "file": "engine/CyclicAutomaton.ts",
+        "line": 193,
+        "match": "clusters",
+        "snippet": "        // When adding a state, existing cells stay same, new state emerges naturally\n        actionTaken = true;\n      } else {\n         // Alternatively, reduce range to create tighter local clusters\n         if (this.params.range > 1) {\n            this.params.range--;\n            this.params.threshold = Math.max(1, this.params.threshold - 1);",
+        "kind": "regex"
+      },
+      {
+        "variant": "autopoietic-observer",
+        "feature": "has_deterministic_rng",
+        "file": "utils/random.ts",
+        "line": 5,
+        "match": "seed-based or custom PRNG",
+        "snippet": "// Not cryptographically secure, but sufficient for simulation stability.\n\nclass DeterministicRandom {\n  private seed: number;\n\n  constructor(seed: number = 12345) {\n    this.seed = seed;",
+        "kind": "regex"
+      }
+    ],
+    "has_raf": true,
+    "has_cancel_raf": true,
+    "has_canvas_2d": true,
+    "has_resize": false,
+    "has_stateRef": false,
+    "setState_in_raf": false,
+    "has_dom_overlay_text": false,
+    "no_react_state_in_loop": true,
+    "has_tracks_system": false,
+    "has_timeline_file": false,
+    "has_keyframe_system": false,
+    "has_track_sequencing": false,
+    "has_overlay_component": false,
+    "has_dom_overlay_div": false,
+    "has_ui_controls": true,
+    "has_animation_controls": false,
+    "has_component_separation": false,
+    "has_fixed_timestep": false,
+    "uses_performance_now": false,
+    "uses_date_now": false,
+    "uses_ts_from_raf": false,
+    "has_loop_mod": false,
+    "has_deterministic_rng": true,
+    "force_spring": false,
+    "force_attract_to_center": false,
+    "force_repulse": false,
+    "force_noise_jitter": false,
+    "force_damping_mul": false,
+    "force_velocity_clamp": false,
+    "pass_threads": false,
+    "pass_particles": false,
+    "pass_hotspot_gradient": false,
+    "pass_trails_alpha": false,
+    "has_lerp": false,
+    "has_smoothstep": false,
+    "has_easing_words": false,
+    "has_clusters": true,
+    "has_threads": false,
+    "has_hotspots": false,
+    "has_scan_ring": false,
+    "has_stress_pulse": false,
+    "has_shadow_blur": false,
+    "has_trails": false,
+    "has_gradients": false,
+    "has_teal": true,
+    "has_red": true,
+    "uses_math_random": false,
+    "particle_count": null,
+    "cluster_count": null,
+    "duration_ms": 18000,
+    "signature": "C_-_-_-_-_-_-_-_OK",
+    "score": 10,
+    "ENGINE_CLASS": "NON_COMPLIANT",
+    "files_analyzed": 8,
+    "compliance": [
+      {
+        "name": "Fixed Timestep",
+        "pass": false,
+        "description": "Использует фиксированный timestep для стабильной физики"
+      },
+      {
+        "name": "Deterministic RNG",
+        "pass": true,
+        "description": "Использует детерминированный RNG (seed-based)"
+      },
+      {
+        "name": "Performance.now",
+        "pass": false,
+        "description": "Использует performance.now() вместо Date.now()"
+      },
+      {
+        "name": "No setState in RAF",
+        "pass": true,
+        "description": "Нет setState внутри requestAnimationFrame"
+      },
+      {
+        "name": "DOM Overlay",
+        "pass": false,
+        "description": "Имеет DOM overlay поверх canvas"
+      },
+      {
+        "name": "Tracks System",
+        "pass": false,
+        "description": "Имеет систему треков/таймлайна"
+      }
+    ],
+    "compliance_score": 2,
+    "compliance_total": 6
+  },
+  {
+    "variant": "causal-engine",
+    "feature_events": [
+      {
+        "variant": "causal-engine",
+        "feature": "has_gradients",
+        "file": "App.tsx",
+        "line": 144,
+        "match": "gradient creation",
+        "snippet": "            ctx.lineTo(pastPos.x, pastPos.y);\n            \n            // Gradient for the time link\n            const grad = ctx.createLinearGradient(observer.position.x, observer.position.y, pastPos.x, pastPos.y);\n            grad.addColorStop(0, '#f59e0b');\n            grad.addColorStop(1, '#10b981'); // Emerald\n            ctx.strokeStyle = grad;",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_trails",
+        "file": "App.tsx",
+        "line": 98,
+        "match": "rgba fillStyle + fillRect",
+        "snippet": "      ctx.strokeStyle = '#f59e0b'; // Amber-500\n      ctx.lineWidth = 2;\n      ctx.stroke();\n      ctx.fillStyle = 'rgba(245, 158, 11, 0.2)';\n      ctx.fill();\n\n      // Draw Perception Radius",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_red",
+        "file": "App.tsx",
+        "line": 61,
+        "match": "red color",
+        "snippet": "    if (newConfig.entityCount !== undefined || newConfig.seed !== undefined) {\n       // Defer reset to avoid jank, or do it immediately. \n       // For deterministic integrity, changing seed/count usually implies a reset in this context.\n       // We'll update the config in the engine, but let the user hit RESET to apply structural changes fully if desired,\n       // OR we can auto-reset. Let's auto-reset for seed/count to maintain causality consistency.\n       engineRef.current.config = merged;\n       engineRef.current.reset();",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_threads",
+        "file": "App.tsx",
+        "line": 82,
+        "match": "lineTo + connection logic",
+        "snippet": "    ctx.strokeStyle = '#1e293b';\n    ctx.lineWidth = 1;\n    ctx.beginPath();\n    for (let x = 0; x < width; x += 50) { ctx.moveTo(x, 0); ctx.lineTo(x, height); }\n    for (let y = 0; y < height; y += 50) { ctx.moveTo(0, y); ctx.lineTo(width, y); }\n    ctx.stroke();\n",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_resize",
+        "file": "App.tsx",
+        "line": 233,
+        "match": "resize handler",
+        "snippet": "             draw(canvasRef.current.getContext('2d')!, containerRef.current.clientWidth, containerRef.current.clientHeight);\n        }\n    };\n    window.addEventListener('resize', handleResize);\n    handleResize();\n    return () => window.removeEventListener('resize', handleResize);\n  }, []);",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "pass_particles",
+        "file": "App.tsx",
+        "line": 155,
+        "match": "draw particles primitives",
+        "snippet": "\n            // Draw \"Ghost\" at past position\n            ctx.beginPath();\n            ctx.arc(pastPos.x, pastPos.y, 3, 0, Math.PI * 2);\n            ctx.fillStyle = '#10b981';\n            ctx.fill();\n        }",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_dom_overlay_div",
+        "file": "App.tsx",
+        "line": 250,
+        "match": "div with absolute/fixed position",
+        "snippet": "  };\n\n  return (\n    <div className=\"relative w-full h-screen bg-slate-950 flex flex-col items-center justify-center font-sans\">\n      \n      {/* Simulation Container */}\n      <div ref={containerRef} className=\"absolute inset-0 z-0\">",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "uses_ts_from_raf",
+        "file": "App.tsx",
+        "line": 178,
+        "match": "timestamp from RAF callback",
+        "snippet": "      ctx.fill();\n    });\n  };\n\n  // Main Loop\n  const tick = (time: number) => {\n    if (playState !== PlayState.PLAYING && playState !== PlayState.REWINDING) {\n        lastTimeRef.current = time;\n        requestRef.current = requestAnimationFrame(tick);\n        return;\n    }",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_deterministic_rng",
+        "file": "App.tsx",
+        "line": 10,
+        "match": "seed-based or custom PRNG",
+        "snippet": "\n// Default Configuration\nconst DEFAULT_CONFIG: SimulationConfig = {\n  seed: 1337,\n  entityCount: 100,\n  informationSpeed: 5, // Pixels per tick. 5 is very slow (\"relativistic\"), 100 is instant-ish.\n  separationWeight: 2.0,",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_canvas_2d",
+        "file": "App.tsx",
+        "line": 48,
+        "match": "getContext('2d')",
+        "snippet": "    setMetrics(prev => ({ ...prev, tick: 0 }));\n    // Force a render of the initial state\n    if (canvasRef.current && containerRef.current) {\n        draw(canvasRef.current.getContext('2d')!, containerRef.current.clientWidth, containerRef.current.clientHeight);\n    }\n  }, [config]);\n",
+        "kind": "ast"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_raf",
+        "file": "App.tsx",
+        "line": 181,
+        "match": "requestAnimationFrame",
+        "snippet": "  const tick = (time: number) => {\n    if (playState !== PlayState.PLAYING && playState !== PlayState.REWINDING) {\n        lastTimeRef.current = time;\n        requestRef.current = requestAnimationFrame(tick);\n        return;\n    }\n",
+        "kind": "ast"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_canvas_2d",
+        "file": "App.tsx",
+        "line": 209,
+        "match": "getContext('2d')",
+        "snippet": "\n    // Render\n    if (canvasRef.current && containerRef.current) {\n        draw(canvasRef.current.getContext('2d')!, containerRef.current.clientWidth, containerRef.current.clientHeight);\n    }\n\n    requestRef.current = requestAnimationFrame(tick);",
+        "kind": "ast"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_raf",
+        "file": "App.tsx",
+        "line": 212,
+        "match": "requestAnimationFrame",
+        "snippet": "        draw(canvasRef.current.getContext('2d')!, containerRef.current.clientWidth, containerRef.current.clientHeight);\n    }\n\n    requestRef.current = requestAnimationFrame(tick);\n  };\n\n  // Setup / Teardown Loop",
+        "kind": "ast"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_raf",
+        "file": "App.tsx",
+        "line": 217,
+        "match": "requestAnimationFrame",
+        "snippet": "\n  // Setup / Teardown Loop\n  useEffect(() => {\n    requestRef.current = requestAnimationFrame(tick);\n    return () => {\n      if (requestRef.current) cancelAnimationFrame(requestRef.current);\n    };",
+        "kind": "ast"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_cancel_raf",
+        "file": "App.tsx",
+        "line": 219,
+        "match": "cancelAnimationFrame",
+        "snippet": "  useEffect(() => {\n    requestRef.current = requestAnimationFrame(tick);\n    return () => {\n      if (requestRef.current) cancelAnimationFrame(requestRef.current);\n    };\n  }, [playState]); // Re-bind when playstate changes to ensure logic flow\n",
+        "kind": "ast"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_canvas_2d",
+        "file": "App.tsx",
+        "line": 230,
+        "match": "getContext('2d')",
+        "snippet": "            canvasRef.current.width = containerRef.current.clientWidth;\n            canvasRef.current.height = containerRef.current.clientHeight;\n            // Redraw immediately\n             draw(canvasRef.current.getContext('2d')!, containerRef.current.clientWidth, containerRef.current.clientHeight);\n        }\n    };\n    window.addEventListener('resize', handleResize);",
+        "kind": "ast"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_canvas_2d",
+        "file": "App.tsx",
+        "line": 244,
+        "match": "getContext('2d')",
+        "snippet": "         engineRef.current.tick(containerRef.current.clientWidth, containerRef.current.clientHeight);\n         setMetrics({ tick: engineRef.current.tickCount, fps: 0 });\n         if (canvasRef.current) {\n            draw(canvasRef.current.getContext('2d')!, containerRef.current.clientWidth, containerRef.current.clientHeight);\n         }\n     }\n  };",
+        "kind": "ast"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_deterministic_rng",
+        "file": "types.ts",
+        "line": 16,
+        "match": "seed-based or custom PRNG",
+        "snippet": "}\n\nexport interface SimulationConfig {\n  seed: number;\n  entityCount: number;\n  informationSpeed: number; // Pixels per tick. Lower = more delay (higher latency causality)\n  separationWeight: number;",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_red",
+        "file": "components/Controls.tsx",
+        "line": 47,
+        "match": "red color",
+        "snippet": "            </button>\n            <button\n              onClick={onReset}\n              className=\"px-4 py-2 rounded-lg bg-slate-800 text-red-400 border border-slate-700 hover:bg-slate-700 hover:text-red-300 transition-colors\"\n            >\n              RESET\n            </button>",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_ui_controls",
+        "file": "components/Controls.tsx",
+        "line": 4,
+        "match": "UI controls (button/slider/input)",
+        "snippet": "import React from 'react';\nimport { SimulationConfig, PlayState } from '../types';\n\ninterface ControlsProps {\n  config: SimulationConfig;\n  playState: PlayState;\n  onConfigChange: (c: Partial<SimulationConfig>) => void;",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_deterministic_rng",
+        "file": "components/Controls.tsx",
+        "line": 117,
+        "match": "seed-based or custom PRNG",
+        "snippet": "                <input\n                  type=\"number\"\n                  value={config.seed}\n                  onChange={(e) => onConfigChange({ seed: Number(e.target.value) })}\n                  className=\"bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded px-2 py-1 w-20 focus:outline-none focus:border-purple-500\"\n                />\n                <button ",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "uses_math_random",
+        "file": "components/Controls.tsx",
+        "line": 121,
+        "match": "Math.random()",
+        "snippet": "                  className=\"bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded px-2 py-1 w-20 focus:outline-none focus:border-purple-500\"\n                />\n                <button \n                  onClick={() => onConfigChange({ seed: Math.floor(Math.random() * 10000) })}\n                  className=\"text-xs bg-slate-800 px-2 rounded border border-slate-700 hover:bg-slate-700 text-slate-400\"\n                >\n                  RANDOMIZE",
+        "kind": "ast"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_red",
+        "file": "services/Engine.ts",
+        "line": 50,
+        "match": "red color",
+        "snippet": "\n  public updateConfig(newConfig: Partial<SimulationConfig>) {\n    this.config = { ...this.config, ...newConfig };\n    // Truncate history if buffer size reduced\n    if (this.history.length > this.config.historyLength) {\n      this.history = this.history.slice(this.history.length - this.config.historyLength);\n    }",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "uses_performance_now",
+        "file": "services/Engine.ts",
+        "line": 58,
+        "match": "performance.now()",
+        "snippet": "\n  // The Fixed Timestep Update\n  public tick(width: number, height: number) {\n    const start = performance.now();\n    this.tickCount++;\n\n    const nextEntities = this.entities.map(entity => {",
+        "kind": "ast"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "uses_performance_now",
+        "file": "services/Engine.ts",
+        "line": 88,
+        "match": "performance.now()",
+        "snippet": "\n    this.entities = nextEntities;\n    this.recordHistory();\n    this.lastTickTime = performance.now() - start;\n  }\n\n  private recordHistory() {",
+        "kind": "ast"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_lerp",
+        "file": "services/mathUtils.ts",
+        "line": 43,
+        "match": "lerp function",
+        "snippet": "    }\n    return v;\n  },\n  lerp: (a: Vector2, b: Vector2, t: number): Vector2 => ({\n    x: a.x + (b.x - a.x) * t,\n    y: a.y + (b.y - a.y) * t,\n  }),",
+        "kind": "regex"
+      },
+      {
+        "variant": "causal-engine",
+        "feature": "has_deterministic_rng",
+        "file": "services/mathUtils.ts",
+        "line": 4,
+        "match": "seed-based or custom PRNG",
+        "snippet": "import { Vector2 } from '../types';\n\nexport class RNG {\n  private seed: number;\n\n  constructor(seed: number) {\n    this.seed = seed;",
+        "kind": "regex"
+      }
+    ],
+    "has_raf": true,
+    "has_cancel_raf": true,
+    "has_canvas_2d": true,
+    "has_resize": true,
+    "has_stateRef": false,
+    "setState_in_raf": false,
+    "has_dom_overlay_text": false,
+    "no_react_state_in_loop": true,
+    "has_tracks_system": false,
+    "has_timeline_file": false,
+    "has_keyframe_system": false,
+    "has_track_sequencing": false,
+    "has_overlay_component": false,
+    "has_dom_overlay_div": true,
+    "has_ui_controls": true,
+    "has_animation_controls": false,
+    "has_component_separation": false,
+    "has_fixed_timestep": false,
+    "uses_performance_now": true,
+    "uses_date_now": false,
+    "uses_ts_from_raf": true,
+    "has_loop_mod": false,
+    "has_deterministic_rng": true,
+    "force_spring": false,
+    "force_attract_to_center": false,
+    "force_repulse": false,
+    "force_noise_jitter": false,
+    "force_damping_mul": false,
+    "force_velocity_clamp": false,
+    "pass_threads": true,
+    "pass_particles": true,
+    "pass_hotspot_gradient": false,
+    "pass_trails_alpha": true,
+    "has_lerp": true,
+    "has_smoothstep": false,
+    "has_easing_words": false,
+    "has_clusters": false,
+    "has_threads": true,
+    "has_hotspots": false,
+    "has_scan_ring": false,
+    "has_stress_pulse": false,
+    "has_shadow_blur": false,
+    "has_trails": true,
+    "has_gradients": true,
+    "has_teal": false,
+    "has_red": true,
+    "uses_math_random": true,
+    "particle_count": null,
+    "cluster_count": null,
+    "duration_ms": 18000,
+    "signature": "-_T_-_TR_-_-_-_-_OK",
+    "score": 14,
+    "ENGINE_CLASS": "NON_COMPLIANT",
+    "files_analyzed": 8,
+    "compliance": [
+      {
+        "name": "Fixed Timestep",
+        "pass": false,
+        "description": "Использует фиксированный timestep для стабильной физики"
+      },
+      {
+        "name": "Deterministic RNG",
+        "pass": true,
+        "description": "Использует детерминированный RNG (seed-based)"
+      },
+      {
+        "name": "Performance.now",
+        "pass": true,
+        "description": "Использует performance.now() вместо Date.now()"
+      },
+      {
+        "name": "No setState in RAF",
+        "pass": true,
+        "description": "Нет setState внутри requestAnimationFrame"
+      },
+      {
+        "name": "DOM Overlay",
+        "pass": true,
+        "description": "Имеет DOM overlay поверх canvas"
+      },
+      {
+        "name": "Tracks System",
+        "pass": false,
+        "description": "Имеет систему треков/таймлайна"
+      }
+    ],
+    "compliance_score": 4,
+    "compliance_total": 6
+  },
+  {
+    "variant": "cluster-dynamics-2d",
+    "feature_events": [
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_clusters",
+        "file": "App.tsx",
+        "line": 9,
+        "match": "clusters",
+        "snippet": "    <div className=\"relative w-screen h-screen bg-neutral-950 overflow-hidden text-white font-sans\">\n      <div className=\"absolute top-4 left-4 z-10 pointer-events-none\">\n        <h1 className=\"text-2xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent\">\n          Cluster Dynamics\n        </h1>\n        <p className=\"text-xs text-neutral-500 mt-1 max-w-xs\">\n          Spatial Hash • Fixed Timestep (120hz) • Seeded RNG",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_clusters",
+        "file": "utils.ts",
+        "line": 33,
+        "match": "clusters",
+        "snippet": "  vx: number;\n  vy: number;\n  radius: number;\n  cluster: number;\n  color: string;\n  // Trail history (circular buffer or simple array)\n  history: { x: number; y: number }[];",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_deterministic_rng",
+        "file": "utils.ts",
+        "line": 8,
+        "match": "seed-based or custom PRNG",
+        "snippet": "  private c = 12345;\n  private state: number;\n\n  constructor(seed: number) {\n    this.state = seed ? seed : Math.floor(Math.random() * (this.m - 1));\n  }\n",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "uses_math_random",
+        "file": "utils.ts",
+        "line": 9,
+        "match": "Math.random()",
+        "snippet": "  private state: number;\n\n  constructor(seed: number) {\n    this.state = seed ? seed : Math.floor(Math.random() * (this.m - 1));\n  }\n\n  nextInt(): number {",
+        "kind": "ast"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_shadow_blur",
+        "file": "components/Simulation.tsx",
+        "line": 323,
+        "match": "shadowBlur",
+        "snippet": "    // Optimization: Just draw.\n    \n    // Enable glow only for particles (expensive)\n    ctx.shadowBlur = 15;\n    \n    particles.forEach(p => {\n      ctx.shadowColor = p.color;",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_trails",
+        "file": "components/Simulation.tsx",
+        "line": 244,
+        "match": "rgba fillStyle + fillRect",
+        "snippet": "    \n    // Clear with very slight opacity for \"afterimage\" trail effect if desired, \n    // but we use explicit trail geometry for sharpness.\n    ctx.fillStyle = 'rgba(5, 5, 5, 1)'; // Solid clear for crisp logic\n    ctx.fillRect(0, 0, width, height);\n    \n    const particles = particlesRef.current;",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_red",
+        "file": "components/Simulation.tsx",
+        "line": 242,
+        "match": "red color",
+        "snippet": "    // For performance + aesthetics: Standard clearRect + History Lines looks cleaner than alpha trails.\n    // But \"ShadowBlur\" + \"Trails\" suggests a neon look.\n    \n    // Clear with very slight opacity for \"afterimage\" trail effect if desired, \n    // but we use explicit trail geometry for sharpness.\n    ctx.fillStyle = 'rgba(5, 5, 5, 1)'; // Solid clear for crisp logic\n    ctx.fillRect(0, 0, width, height);",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_clusters",
+        "file": "components/Simulation.tsx",
+        "line": 34,
+        "match": "clusters",
+        "snippet": "  const timeRef = useRef<number>(0); // Last frame time\n  const accumulatorRef = useRef<number>(0);\n  \n  // Cluster centers (hotspots) - they move slowly\n  const clustersRef = useRef<{x: number, y: number, dx: number, dy: number, color: string}[]>([]);\n\n  // Initialize Simulation",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_threads",
+        "file": "components/Simulation.tsx",
+        "line": 290,
+        "match": "lineTo + connection logic",
+        "snippet": "                  ctx.strokeStyle = `${p.color}${Math.floor(alpha * 255).toString(16).padStart(2,'0')}`; // fast hex alpha\n                  ctx.beginPath();\n                  ctx.moveTo(p.x, p.y);\n                  ctx.lineTo(other.x, other.y);\n                  ctx.stroke();\n               }\n             }",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_hotspots",
+        "file": "components/Simulation.tsx",
+        "line": 34,
+        "match": "hotspots",
+        "snippet": "  const timeRef = useRef<number>(0); // Last frame time\n  const accumulatorRef = useRef<number>(0);\n  \n  // Cluster centers (hotspots) - they move slowly\n  const clustersRef = useRef<{x: number, y: number, dx: number, dy: number, color: string}[]>([]);\n\n  // Initialize Simulation",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "pass_particles",
+        "file": "components/Simulation.tsx",
+        "line": 288,
+        "match": "draw particles primitives",
+        "snippet": "                  const dist = Math.sqrt(distSq);\n                  const alpha = 1 - dist / CONFIG.connectionDistance;\n                  ctx.strokeStyle = `${p.color}${Math.floor(alpha * 255).toString(16).padStart(2,'0')}`; // fast hex alpha\n                  ctx.beginPath();\n                  ctx.moveTo(p.x, p.y);\n                  ctx.lineTo(other.x, other.y);\n                  ctx.stroke();",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_dom_overlay_div",
+        "file": "components/Simulation.tsx",
+        "line": 414,
+        "match": "div with absolute/fixed position",
+        "snippet": "        onMouseUp={handleMouseUp}\n        onMouseLeave={handleMouseLeave}\n      />\n      <div className=\"absolute top-4 right-4 text-right font-mono text-[10px] text-neutral-600 pointer-events-none select-none\">\n        {debugInfo}\n      </div>\n    </div>",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "uses_ts_from_raf",
+        "file": "components/Simulation.tsx",
+        "line": 337,
+        "match": "timestamp from RAF callback",
+        "snippet": "    });\n    \n    ctx.shadowBlur = 0; // Reset\n  };\n\n  const loop = (timestamp: number) => {\n    if (!timeRef.current) timeRef.current = timestamp;\n    const deltaTime = (timestamp - timeRef.current) / 1000;\n    timeRef.current = timestamp;\n\n    // Accumulator for fixed timestep",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_deterministic_rng",
+        "file": "components/Simulation.tsx",
+        "line": 14,
+        "match": "seed-based or custom PRNG",
+        "snippet": "  speed: 100, // Speed multiplier\n};\n\nconst SEED = 123456;\nconst DT = 1 / 120; // Fixed timestep\nconst TRAIL_LENGTH = 8;\n",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_deterministic_rng",
+        "file": "components/Simulation.tsx",
+        "line": 39,
+        "match": "PRNG constructor with seed",
+        "snippet": "\n  // Initialize Simulation\n  const init = useCallback((width: number, height: number) => {\n    const rng = new SeededRNG(SEED);\n    const particles: Particle[] = [];\n    const clusters = [];\n",
+        "kind": "regex"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_canvas_2d",
+        "file": "components/Simulation.tsx",
+        "line": 364,
+        "match": "getContext('2d')",
+        "snippet": "            accumulatorRef.current -= DT;\n        }\n\n        const ctx = canvas.getContext('2d', { alpha: false }); // optimization\n        if (ctx) {\n            draw(ctx, width, height);\n        }",
+        "kind": "ast"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_raf",
+        "file": "components/Simulation.tsx",
+        "line": 370,
+        "match": "requestAnimationFrame",
+        "snippet": "        }\n    }\n\n    animationRef.current = requestAnimationFrame(loop);\n    \n    // Debug info update (throttled)\n    if (Math.random() < 0.05) {",
+        "kind": "ast"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "uses_math_random",
+        "file": "components/Simulation.tsx",
+        "line": 373,
+        "match": "Math.random()",
+        "snippet": "    animationRef.current = requestAnimationFrame(loop);\n    \n    // Debug info update (throttled)\n    if (Math.random() < 0.05) {\n        setDebugInfo(`${Math.round(1/deltaTime)} FPS | ${CONFIG.particleCount} Particles | ${CONFIG.clusterCount} Clusters`);\n    }\n  };",
+        "kind": "ast"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_raf",
+        "file": "components/Simulation.tsx",
+        "line": 384,
+        "match": "requestAnimationFrame",
+        "snippet": "        init(clientWidth, clientHeight);\n    }\n    \n    animationRef.current = requestAnimationFrame(loop);\n    return () => cancelAnimationFrame(animationRef.current);\n  }, [init]);\n",
+        "kind": "ast"
+      },
+      {
+        "variant": "cluster-dynamics-2d",
+        "feature": "has_cancel_raf",
+        "file": "components/Simulation.tsx",
+        "line": 385,
+        "match": "cancelAnimationFrame",
+        "snippet": "    }\n    \n    animationRef.current = requestAnimationFrame(loop);\n    return () => cancelAnimationFrame(animationRef.current);\n  }, [init]);\n\n  const handleMouseMove = (e: React.MouseEvent) => {",
+        "kind": "ast"
+      }
+    ],
+    "has_raf": true,
+    "has_cancel_raf": true,
+    "has_canvas_2d": true,
+    "has_resize": false,
+    "has_stateRef": false,
+    "setState_in_raf": false,
+    "has_dom_overlay_text": false,
+    "no_react_state_in_loop": true,
+    "has_tracks_system": false,
+    "has_timeline_file": false,
+    "has_keyframe_system": false,
+    "has_track_sequencing": false,
+    "has_overlay_component": false,
+    "has_dom_overlay_div": true,
+    "has_ui_controls": false,
+    "has_animation_controls": false,
+    "has_component_separation": false,
+    "has_fixed_timestep": false,
+    "uses_performance_now": false,
+    "uses_date_now": false,
+    "uses_ts_from_raf": true,
+    "has_loop_mod": false,
+    "has_deterministic_rng": true,
+    "force_spring": true,
+    "force_attract_to_center": true,
+    "force_repulse": true,
+    "force_noise_jitter": false,
+    "force_damping_mul": false,
+    "force_velocity_clamp": true,
+    "pass_threads": true,
+    "pass_particles": true,
+    "pass_hotspot_gradient": false,
+    "pass_trails_alpha": true,
+    "has_lerp": false,
+    "has_smoothstep": false,
+    "has_easing_words": false,
+    "has_clusters": true,
+    "has_threads": true,
+    "has_hotspots": true,
+    "has_scan_ring": false,
+    "has_stress_pulse": false,
+    "has_shadow_blur": true,
+    "has_trails": true,
+    "has_gradients": false,
+    "has_teal": false,
+    "has_red": true,
+    "uses_math_random": true,
+    "particle_count": null,
+    "cluster_count": null,
+    "duration_ms": 18000,
+    "signature": "C_T_H_TR_GB_SP_-_-_OK",
+    "score": 19,
+    "ENGINE_CLASS": "NON_COMPLIANT",
+    "files_analyzed": 5,
+    "compliance": [
+      {
+        "name": "Fixed Timestep",
+        "pass": false,
+        "description": "Использует фиксированный timestep для стабильной физики"
+      },
+      {
+        "name": "Deterministic RNG",
+        "pass": true,
+        "description": "Использует детерминированный RNG (seed-based)"
+      },
+      {
+        "name": "Performance.now",
+        "pass": false,
+        "description": "Использует performance.now() вместо Date.now()"
+      },
+      {
+        "name": "No setState in RAF",
+        "pass": true,
+        "description": "Нет setState внутри requestAnimationFrame"
+      },
+      {
+        "name": "DOM Overlay",
+        "pass": true,
+        "description": "Имеет DOM overlay поверх canvas"
+      },
+      {
+        "name": "Tracks System",
+        "pass": false,
+        "description": "Имеет систему треков/таймлайна"
+      }
+    ],
+    "compliance_score": 3,
+    "compliance_total": 6
+  },
+  {
+    "variant": "cognitive-state-engine",
+    "feature_events": [
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "uses_math_random",
+        "file": "App.tsx",
+        "line": 35,
+        "match": "Math.random()",
+        "snippet": "      id: uuidv4(),\n      text: `Init Node ${i}`,\n      state: CognitiveState.PERCEPTION,\n      confidence: Math.random() * 0.5 + 0.2,\n      uncertainty: Math.random() * 0.5 + 0.2,\n      decay: 0,\n      age: 0,",
+        "kind": "ast"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "uses_math_random",
+        "file": "App.tsx",
+        "line": 36,
+        "match": "Math.random()",
+        "snippet": "      text: `Init Node ${i}`,\n      state: CognitiveState.PERCEPTION,\n      confidence: Math.random() * 0.5 + 0.2,\n      uncertainty: Math.random() * 0.5 + 0.2,\n      decay: 0,\n      age: 0,\n      x: SIMULATION_WIDTH / 2 + (Math.random() - 0.5) * 100,",
+        "kind": "ast"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "uses_math_random",
+        "file": "App.tsx",
+        "line": 39,
+        "match": "Math.random()",
+        "snippet": "      uncertainty: Math.random() * 0.5 + 0.2,\n      decay: 0,\n      age: 0,\n      x: SIMULATION_WIDTH / 2 + (Math.random() - 0.5) * 100,\n      y: SIMULATION_HEIGHT / 2 + (Math.random() - 0.5) * 100,\n    }));\n    setParticles(initialParticles);",
+        "kind": "ast"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "uses_math_random",
+        "file": "App.tsx",
+        "line": 40,
+        "match": "Math.random()",
+        "snippet": "      decay: 0,\n      age: 0,\n      x: SIMULATION_WIDTH / 2 + (Math.random() - 0.5) * 100,\n      y: SIMULATION_HEIGHT / 2 + (Math.random() - 0.5) * 100,\n    }));\n    setParticles(initialParticles);\n  }, []);",
+        "kind": "ast"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "uses_math_random",
+        "file": "App.tsx",
+        "line": 56,
+        "match": "Math.random()",
+        "snippet": "      let activeParticles = currentParticles.filter(p => p.state !== CognitiveState.DECAYED || p.decay < 1.0);\n\n      // Auto-spawn logic\n      if (currentConfig.autoSpawn && Math.random() < 0.05 && activeParticles.length < 50) {\n        activeParticles.push({\n          id: uuidv4(),\n          text: 'Random Thought',",
+        "kind": "ast"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "uses_math_random",
+        "file": "App.tsx",
+        "line": 65,
+        "match": "Math.random()",
+        "snippet": "          uncertainty: 0.9,\n          decay: 0,\n          age: 0,\n          x: SIMULATION_WIDTH / 2 + (Math.random() - 0.5) * 50,\n          y: SIMULATION_HEIGHT / 2 + (Math.random() - 0.5) * 50,\n        });\n      }",
+        "kind": "ast"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "uses_math_random",
+        "file": "App.tsx",
+        "line": 66,
+        "match": "Math.random()",
+        "snippet": "          decay: 0,\n          age: 0,\n          x: SIMULATION_WIDTH / 2 + (Math.random() - 0.5) * 50,\n          y: SIMULATION_HEIGHT / 2 + (Math.random() - 0.5) * 50,\n        });\n      }\n",
+        "kind": "ast"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "uses_math_random",
+        "file": "App.tsx",
+        "line": 114,
+        "match": "Math.random()",
+        "snippet": "      uncertainty: t.uncertainty || 0.5,\n      decay: 0,\n      age: 0,\n      x: SIMULATION_WIDTH / 2 + (Math.random() - 0.5) * 50,\n      y: SIMULATION_HEIGHT / 2 + (Math.random() - 0.5) * 50,\n    }));\n",
+        "kind": "ast"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "uses_math_random",
+        "file": "App.tsx",
+        "line": 115,
+        "match": "Math.random()",
+        "snippet": "      decay: 0,\n      age: 0,\n      x: SIMULATION_WIDTH / 2 + (Math.random() - 0.5) * 50,\n      y: SIMULATION_HEIGHT / 2 + (Math.random() - 0.5) * 50,\n    }));\n\n    setParticles(prev => [...prev, ...newParticles]);",
+        "kind": "ast"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "has_red",
+        "file": "components/CognitiveGraph.tsx",
+        "line": 62,
+        "match": "red color",
+        "snippet": "    // but we keep them to show history until they are purged by the parent\n    const activeParticles = particles; \n\n    // Links (dynamic based on proximity or shared state could be added here, \n    // but for now we focus on particles as autonomous agents in a field)\n    \n    // Update data",
+        "kind": "regex"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "has_animation_controls",
+        "file": "components/CognitiveGraph.tsx",
+        "line": 46,
+        "match": "animation controls",
+        "snippet": "\n    // Cleanup\n    return () => {\n      simulation.stop();\n    };\n  }, [width, height]);\n",
+        "kind": "regex"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "has_red",
+        "file": "components/ControlPanel.tsx",
+        "line": 98,
+        "match": "red color",
+        "snippet": "            step=\"0.0001\"\n            value={config.decayRate}\n            onChange={(e) => handleChange('decayRate', parseFloat(e.target.value))}\n            className=\"w-full h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-red-500\"\n          />\n        </div>\n",
+        "kind": "regex"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "has_stress_pulse",
+        "file": "components/ControlPanel.tsx",
+        "line": 29,
+        "match": "stress pulse",
+        "snippet": "  return (\n    <div className=\"absolute top-4 left-4 w-72 bg-slate-900/90 backdrop-blur border border-slate-700 rounded-lg p-5 z-20 shadow-xl\">\n      <h1 className=\"text-lg font-bold text-white mb-4 flex items-center gap-2\">\n        <div className=\"w-3 h-3 rounded-full bg-blue-500 animate-pulse\"></div>\n        Cognitive Engine\n      </h1>\n",
+        "kind": "regex"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "has_ui_controls",
+        "file": "components/ControlPanel.tsx",
+        "line": 4,
+        "match": "UI controls (button/slider/input)",
+        "snippet": "import React, { useState } from 'react';\nimport { SimulationConfig } from '../types';\n\ninterface ControlPanelProps {\n  config: SimulationConfig;\n  onConfigChange: (newConfig: SimulationConfig) => void;\n  onInjectThought: (topic: string) => void;",
+        "kind": "regex"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "has_red",
+        "file": "components/ParticleInspector.tsx",
+        "line": 64,
+        "match": "red color",
+        "snippet": "            <span>{(particle.decay * 100).toFixed(1)}%</span>\n          </div>\n          <div className=\"h-2 bg-slate-700 rounded-full overflow-hidden\">\n            <div className=\"h-full transition-all duration-300\" style={barStyle(particle.decay, '#ef4444')} />\n          </div>\n        </div>\n      </div>",
+        "kind": "regex"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "has_dom_overlay_div",
+        "file": "components/ParticleInspector.tsx",
+        "line": 19,
+        "match": "div with absolute/fixed position",
+        "snippet": "  });\n\n  return (\n    <div className=\"absolute top-4 right-4 w-80 bg-slate-800/90 backdrop-blur-md border border-slate-700 rounded-lg shadow-xl p-6 text-sm z-20\">\n      <div className=\"flex justify-between items-start mb-4\">\n        <div>\n          <h2 className=\"text-xl font-bold text-white mb-1\">{particle.text}</h2>",
+        "kind": "regex"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "has_red",
+        "file": "services/geminiService.ts",
+        "line": 31,
+        "match": "red color",
+        "snippet": "              confidence: { type: Type.NUMBER, description: \"Float between 0.1 and 0.9\" },\n              uncertainty: { type: Type.NUMBER, description: \"Float between 0.1 and 0.9\" }\n            },\n            required: [\"text\", \"confidence\", \"uncertainty\"]\n          }\n        }\n      }",
+        "kind": "regex"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "uses_math_random",
+        "file": "services/geminiService.ts",
+        "line": 60,
+        "match": "Math.random()",
+        "snippet": "    mocks.push({\n      text: `${topic} observation ${i + 1}`,\n      state: CognitiveState.PERCEPTION,\n      confidence: Math.random() * 0.8 + 0.1,\n      uncertainty: Math.random() * 0.8 + 0.1,\n      decay: 0,\n      age: 0",
+        "kind": "ast"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "uses_math_random",
+        "file": "services/geminiService.ts",
+        "line": 61,
+        "match": "Math.random()",
+        "snippet": "      text: `${topic} observation ${i + 1}`,\n      state: CognitiveState.PERCEPTION,\n      confidence: Math.random() * 0.8 + 0.1,\n      uncertainty: Math.random() * 0.8 + 0.1,\n      decay: 0,\n      age: 0\n    });",
+        "kind": "ast"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "has_red",
+        "file": "services/simulationRules.ts",
+        "line": 48,
+        "match": "red color",
+        "snippet": "        n.state === CognitiveState.ANALYSIS || n.state === CognitiveState.SYNTHESIS\n      ).length;\n\n      // Analysis reduces uncertainty if surrounded by peers\n      if (supportiveNeighbors > 1) {\n        uncertainty = Math.max(0, uncertainty - config.learningRate);\n        confidence = Math.min(1, confidence + config.learningRate);",
+        "kind": "regex"
+      },
+      {
+        "variant": "cognitive-state-engine",
+        "feature": "uses_math_random",
+        "file": "services/simulationRules.ts",
+        "line": 23,
+        "match": "Math.random()",
+        "snippet": "  switch (state) {\n    case CognitiveState.IDLE:\n      // Transition: Input -> Perception (Simulated by external trigger usually, but here random thought)\n      if (Math.random() < 0.005 && config.autoSpawn) {\n        state = CognitiveState.PERCEPTION;\n        confidence = 0.5;\n        uncertainty = 0.5;",
+        "kind": "ast"
+      }
+    ],
+    "has_raf": false,
+    "has_cancel_raf": false,
+    "has_canvas_2d": false,
+    "has_resize": false,
+    "has_stateRef": false,
+    "setState_in_raf": false,
+    "has_dom_overlay_text": false,
+    "no_react_state_in_loop": true,
+    "has_tracks_system": false,
+    "has_timeline_file": false,
+    "has_keyframe_system": false,
+    "has_track_sequencing": false,
+    "has_overlay_component": false,
+    "has_dom_overlay_div": true,
+    "has_ui_controls": true,
+    "has_animation_controls": true,
+    "has_component_separation": false,
+    "has_fixed_timestep": false,
+    "uses_performance_now": false,
+    "uses_date_now": false,
+    "uses_ts_from_raf": false,
+    "has_loop_mod": false,
+    "has_deterministic_rng": false,
+    "force_spring": false,
+    "force_attract_to_center": false,
+    "force_repulse": false,
+    "force_noise_jitter": false,
+    "force_damping_mul": false,
+    "force_velocity_clamp": false,
+    "pass_threads": false,
+    "pass_particles": false,
+    "pass_hotspot_gradient": false,
+    "pass_trails_alpha": false,
+    "has_lerp": false,
+    "has_smoothstep": false,
+    "has_easing_words": false,
+    "has_clusters": false,
+    "has_threads": false,
+    "has_hotspots": false,
+    "has_scan_ring": false,
+    "has_stress_pulse": true,
+    "has_shadow_blur": false,
+    "has_trails": false,
+    "has_gradients": false,
+    "has_teal": false,
+    "has_red": true,
+    "uses_math_random": true,
+    "particle_count": null,
+    "cluster_count": null,
+    "duration_ms": 18000,
+    "signature": "-_-_-_-_-_-_-_-_OK",
+    "score": 3,
+    "ENGINE_CLASS": "NON_DETERMINISTIC",
+    "files_analyzed": 10,
+    "compliance": [
+      {
+        "name": "Fixed Timestep",
+        "pass": false,
+        "description": "Использует фиксированный timestep для стабильной физики"
+      },
+      {
+        "name": "Deterministic RNG",
+        "pass": false,
+        "description": "Использует детерминированный RNG (seed-based)"
+      },
+      {
+        "name": "Performance.now",
+        "pass": false,
+        "description": "Использует performance.now() вместо Date.now()"
+      },
+      {
+        "name": "No setState in RAF",
+        "pass": true,
+        "description": "Нет setState внутри requestAnimationFrame"
+      },
+      {
+        "name": "DOM Overlay",
+        "pass": true,
+        "description": "Имеет DOM overlay поверх canvas"
+      },
+      {
+        "name": "Tracks System",
+        "pass": false,
+        "description": "Имеет систему треков/таймлайна"
+      }
+    ],
+    "compliance_score": 2,
+    "compliance_total": 6
+  },
+  {
+    "variant": "deterministic-core-engine",
+    "feature_events": [
+      {
+        "variant": "deterministic-core-engine",
+        "feature": "has_red",
+        "file": "App.tsx",
+        "line": 49,
+        "match": "red color",
+        "snippet": "            </div>\n            <div className=\"flex justify-between\">\n              <span className=\"text-gray-400\">Accumulator:</span>\n              <span className={`font-mono ${stats.accumulator > CONFIG.FIXED_TIMESTEP_MS ? 'text-red-500' : 'text-gray-300'}`}>\n                {stats.accumulator.toFixed(2)}ms\n              </span>\n            </div>",
+        "kind": "regex"
+      },
+      {
+        "variant": "deterministic-core-engine",
+        "feature": "has_dom_overlay_div",
+        "file": "App.tsx",
+        "line": 28,
+        "match": "div with absolute/fixed position",
+        "snippet": "              <span className=\"text-gray-400\">Tick Count:</span>\n              <span className=\"text-white font-bold\">{state.tick}</span>\n            </div>\n            <div className=\"flex justify-between\">\n              <span className=\"text-gray-400\">Position (Y):</span>\n              <span className=\"text-green-400\">{state.position.toFixed(4)}</span>\n            </div>",
+        "kind": "regex"
+      },
+      {
+        "variant": "deterministic-core-engine",
+        "feature": "has_ui_controls",
+        "file": "App.tsx",
+        "line": 60,
+        "match": "UI controls (button/slider/input)",
+        "snippet": "          </div>\n        </section>\n\n        {/* Controls */}\n        <div className=\"grid grid-cols-3 gap-2\">\n          <button \n            onClick={togglePause}",
+        "kind": "regex"
+      },
+      {
+        "variant": "deterministic-core-engine",
+        "feature": "has_red",
+        "file": "engine/types.ts",
+        "line": 10,
+        "match": "red color",
+        "snippet": "export const CONFIG = {\n  // 60 Updates per second (16.666ms)\n  FIXED_TIMESTEP_MS: 1000 / 60,\n  GRAVITY: 500, // pixels per second squared\n  BOUNCE_DAMPING: 0.8, // Retain 80% energy on bounce\n  FLOOR_Y: 300, // Floor position in pixels\n};",
+        "kind": "regex"
+      },
+      {
+        "variant": "deterministic-core-engine",
+        "feature": "has_stateRef",
+        "file": "hooks/useGameLoop.ts",
+        "line": 19,
+        "match": "stateRef",
+        "snippet": "\nexport const useGameLoop = (): GameLoopControls => {\n  // We use Refs for the actual engine state to avoid React's async batching interfering with the loop\n  const stateRef = useRef<EngineState>(getInitialState());\n  const requestRef = useRef<number>();\n  const previousTimeRef = useRef<number>();\n  const accumulatorRef = useRef<number>(0);",
+        "kind": "regex"
+      },
+      {
+        "variant": "deterministic-core-engine",
+        "feature": "uses_ts_from_raf",
+        "file": "hooks/useGameLoop.ts",
+        "line": 30,
+        "match": "timestamp from RAF callback",
+        "snippet": "  const [renderState, setRenderState] = useState<EngineState>(getInitialState());\n  const [isRunning, setIsRunning] = useState(false);\n  const [stats, setStats] = useState({ accumulator: 0, fps: 0 });\n\n  // Core Loop Function\n  const animate = useCallback((time: number) => {\n    if (previousTimeRef.current !== undefined) {\n      const deltaTime = time - previousTimeRef.current;\n      \n      // Cap deltaTime to prevent spiral of death if tab is backgrounded\n      const safeDelta = Math.min(deltaTime, 250);",
+        "kind": "regex"
+      },
+      {
+        "variant": "deterministic-core-engine",
+        "feature": "has_raf",
+        "file": "hooks/useGameLoop.ts",
+        "line": 55,
+        "match": "requestAnimationFrame",
+        "snippet": "      });\n    }\n    previousTimeRef.current = time;\n    requestRef.current = requestAnimationFrame(animate);\n  }, []);\n\n  useEffect(() => {",
+        "kind": "ast"
+      },
+      {
+        "variant": "deterministic-core-engine",
+        "feature": "has_raf",
+        "file": "hooks/useGameLoop.ts",
+        "line": 60,
+        "match": "requestAnimationFrame",
+        "snippet": "\n  useEffect(() => {\n    if (isRunning) {\n      requestRef.current = requestAnimationFrame(animate);\n    } else {\n      previousTimeRef.current = undefined;\n      if (requestRef.current) {",
+        "kind": "ast"
+      },
+      {
+        "variant": "deterministic-core-engine",
+        "feature": "has_cancel_raf",
+        "file": "hooks/useGameLoop.ts",
+        "line": 64,
+        "match": "cancelAnimationFrame",
+        "snippet": "    } else {\n      previousTimeRef.current = undefined;\n      if (requestRef.current) {\n        cancelAnimationFrame(requestRef.current);\n      }\n    }\n    return () => {",
+        "kind": "ast"
+      },
+      {
+        "variant": "deterministic-core-engine",
+        "feature": "has_cancel_raf",
+        "file": "hooks/useGameLoop.ts",
+        "line": 68,
+        "match": "cancelAnimationFrame",
+        "snippet": "      }\n    }\n    return () => {\n      if (requestRef.current) cancelAnimationFrame(requestRef.current);\n    };\n  }, [isRunning, animate]);\n",
+        "kind": "ast"
+      }
+    ],
+    "has_raf": true,
+    "has_cancel_raf": true,
+    "has_canvas_2d": false,
+    "has_resize": false,
+    "has_stateRef": true,
+    "setState_in_raf": false,
+    "has_dom_overlay_text": false,
+    "no_react_state_in_loop": true,
+    "has_tracks_system": false,
+    "has_timeline_file": false,
+    "has_keyframe_system": false,
+    "has_track_sequencing": false,
+    "has_overlay_component": false,
+    "has_dom_overlay_div": true,
+    "has_ui_controls": true,
+    "has_animation_controls": false,
+    "has_component_separation": false,
+    "has_fixed_timestep": false,
+    "uses_performance_now": false,
+    "uses_date_now": false,
+    "uses_ts_from_raf": true,
+    "has_loop_mod": false,
+    "has_deterministic_rng": false,
+    "force_spring": false,
+    "force_attract_to_center": false,
+    "force_repulse": false,
+    "force_noise_jitter": false,
+    "force_damping_mul": false,
+    "force_velocity_clamp": false,
+    "pass_threads": false,
+    "pass_particles": false,
+    "pass_hotspot_gradient": false,
+    "pass_trails_alpha": false,
+    "has_lerp": false,
+    "has_smoothstep": false,
+    "has_easing_words": false,
+    "has_clusters": false,
+    "has_threads": false,
+    "has_hotspots": false,
+    "has_scan_ring": false,
+    "has_stress_pulse": false,
+    "has_shadow_blur": false,
+    "has_trails": false,
+    "has_gradients": false,
+    "has_teal": false,
+    "has_red": true,
+    "uses_math_random": false,
+    "particle_count": null,
+    "cluster_count": null,
+    "duration_ms": 18000,
+    "signature": "-_-_-_-_-_-_-_-_OK",
+    "score": 6,
+    "ENGINE_CLASS": "NON_COMPLIANT",
+    "files_analyzed": 6,
+    "compliance": [
+      {
+        "name": "Fixed Timestep",
+        "pass": false,
+        "description": "Использует фиксированный timestep для стабильной физики"
+      },
+      {
+        "name": "Deterministic RNG",
+        "pass": false,
+        "description": "Использует детерминированный RNG (seed-based)"
+      },
+      {
+        "name": "Performance.now",
+        "pass": false,
+        "description": "Использует performance.now() вместо Date.now()"
+      },
+      {
+        "name": "No setState in RAF",
+        "pass": true,
+        "description": "Нет setState внутри requestAnimationFrame"
+      },
+      {
+        "name": "DOM Overlay",
+        "pass": true,
+        "description": "Имеет DOM overlay поверх canvas"
+      },
+      {
+        "name": "Tracks System",
+        "pass": false,
+        "description": "Имеет систему треков/таймлайна"
+      }
+    ],
+    "compliance_score": 2,
+    "compliance_total": 6
+  },
+  {
+    "variant": "neurocanvas---autonomous-agent-sim",
+    "feature_events": [
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_resize",
+        "file": "App.tsx",
+        "line": 63,
+        "match": "resize handler",
+        "snippet": "        // In a real app we might want to resize the world, but here we just update width props\n        // for simplicity, we won't resize the logical world dynamically to avoid coordinate bugs\n    };\n    window.addEventListener('resize', handleResize);\n    return () => window.removeEventListener('resize', handleResize);\n  }, []);\n",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_deterministic_rng",
+        "file": "App.tsx",
+        "line": 9,
+        "match": "seed-based or custom PRNG",
+        "snippet": "import { generateScenarioConfig } from './services/geminiService';\n\nconst DEFAULT_CONFIG: WorldConfig = {\n  seed: \"initial-seed\",\n  width: window.innerWidth - 384, // Sidebar width approx\n  height: window.innerHeight,\n  initialAgentCount: 20,",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_raf",
+        "file": "App.tsx",
+        "line": 47,
+        "match": "requestAnimationFrame",
+        "snippet": "          setStats(engine.getStats());\n      }\n    }\n    requestRef.current = requestAnimationFrame(updateLoop);\n  }, [isRunning, engine]);\n\n  useEffect(() => {",
+        "kind": "ast"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_raf",
+        "file": "App.tsx",
+        "line": 51,
+        "match": "requestAnimationFrame",
+        "snippet": "  }, [isRunning, engine]);\n\n  useEffect(() => {\n    requestRef.current = requestAnimationFrame(updateLoop);\n    return () => {\n        if (requestRef.current) cancelAnimationFrame(requestRef.current);\n    };",
+        "kind": "ast"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_cancel_raf",
+        "file": "App.tsx",
+        "line": 53,
+        "match": "cancelAnimationFrame",
+        "snippet": "  useEffect(() => {\n    requestRef.current = requestAnimationFrame(updateLoop);\n    return () => {\n        if (requestRef.current) cancelAnimationFrame(requestRef.current);\n    };\n  }, [updateLoop]);\n",
+        "kind": "ast"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "uses_date_now",
+        "file": "App.tsx",
+        "line": 83,
+        "match": "Date.now()",
+        "snippet": "      const newConfig: WorldConfig = {\n        ...config,\n        ...generatedConfig,\n        seed: prompt + Date.now().toString(), // New seed for new scenario\n        scenarioDescription: prompt,\n        agentConfig: {\n            ...config.agentConfig,",
+        "kind": "ast"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_deterministic_rng",
+        "file": "types.ts",
+        "line": 54,
+        "match": "seed-based or custom PRNG",
+        "snippet": "}\n\nexport interface WorldConfig {\n  seed: string;\n  width: number;\n  height: number;\n  initialAgentCount: number;",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_teal",
+        "file": "components/ControlPanel.tsx",
+        "line": 51,
+        "match": "teal/cyan color",
+        "snippet": "      \n      {/* Header */}\n      <div>\n        <h1 className=\"text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent\">\n          NeuroCanvas\n        </h1>\n        <p className=\"text-xs text-slate-500 font-mono mt-1\">DETERMINISTIC AGENT SYSTEM</p>",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_red",
+        "file": "components/ControlPanel.tsx",
+        "line": 106,
+        "match": "red color",
+        "snippet": "        <textarea\n          value={prompt}\n          onChange={(e) => setPrompt(e.target.value)}\n          placeholder=\"e.g., 'A high-speed world where aggressive red agents hunt peaceful blue gatherers...'\"\n          className=\"w-full h-24 bg-slate-950 border border-slate-700 rounded p-3 text-sm focus:ring-1 focus:ring-purple-500 outline-none resize-none placeholder-slate-600\"\n        />\n        <button",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_ui_controls",
+        "file": "components/ControlPanel.tsx",
+        "line": 6,
+        "match": "UI controls (button/slider/input)",
+        "snippet": "import { Play, Pause, RefreshCw, Wand2, BrainCircuit, Activity, Database, Users } from 'lucide-react';\nimport { analyzeAgentBehavior } from '../services/geminiService';\n\ninterface ControlPanelProps {\n  isRunning: boolean;\n  onTogglePlay: () => void;\n  onReset: () => void;",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_shadow_blur",
+        "file": "components/SimulationCanvas.tsx",
+        "line": 58,
+        "match": "shadowBlur",
+        "snippet": "        ctx.fill();\n        \n        // Glow\n        ctx.shadowBlur = 5;\n        ctx.shadowColor = res.color;\n        ctx.fill();\n        ctx.shadowBlur = 0;",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_red",
+        "file": "components/SimulationCanvas.tsx",
+        "line": 94,
+        "match": "red color",
+        "snippet": "        const healthPct = agent.energy / agent.maxEnergy;\n        ctx.fillStyle = '#334155';\n        ctx.fillRect(agent.position.x - 6, agent.position.y - 10, barWidth, 3);\n        ctx.fillStyle = healthPct > 0.5 ? '#22c55e' : '#ef4444';\n        ctx.fillRect(agent.position.x - 6, agent.position.y - 10, barWidth * healthPct, 3);\n\n        // Draw Target Line",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "pass_particles",
+        "file": "components/SimulationCanvas.tsx",
+        "line": 34,
+        "match": "draw particles primitives",
+        "snippet": "      ctx.lineWidth = 1;\n      const gridSize = 50;\n      for (let x = 0; x <= width; x += gridSize) {\n        ctx.beginPath();\n        ctx.moveTo(x, 0);\n        ctx.lineTo(x, height);\n        ctx.stroke();",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_canvas_2d",
+        "file": "components/SimulationCanvas.tsx",
+        "line": 19,
+        "match": "getContext('2d')",
+        "snippet": "  useEffect(() => {\n    const canvas = canvasRef.current;\n    if (!canvas) return;\n    const ctx = canvas.getContext('2d');\n    if (!ctx) return;\n\n    let animationFrameId: number;",
+        "kind": "ast"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_raf",
+        "file": "components/SimulationCanvas.tsx",
+        "line": 109,
+        "match": "requestAnimationFrame",
+        "snippet": "        }\n      });\n\n      animationFrameId = requestAnimationFrame(render);\n    };\n\n    render();",
+        "kind": "ast"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_cancel_raf",
+        "file": "components/SimulationCanvas.tsx",
+        "line": 114,
+        "match": "cancelAnimationFrame",
+        "snippet": "\n    render();\n\n    return () => cancelAnimationFrame(animationFrameId);\n  }, [engine, width, height, selectedAgentId]);\n\n  const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {",
+        "kind": "ast"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_teal",
+        "file": "services/geminiService.ts",
+        "line": 36,
+        "match": "teal/cyan color",
+        "snippet": "        - visionRadius: 50 to 300\n        - maxSpeed: 1 to 5\n        - metabolism: 0.1 to 1.0 (Cost of living)\n        - aggressiveness: 0 to 1 (Likelihood to steal/fight)\n        - social: 0 to 1 (Likelihood to share info)\n        - greed: 0 to 1 (Priority on food)\n        - color: Hex code string",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_red",
+        "file": "services/geminiService.ts",
+        "line": 65,
+        "match": "red color",
+        "snippet": "                greed: { type: Type.NUMBER },\n                color: { type: Type.STRING },\n              },\n              required: [\"visionRadius\", \"maxSpeed\", \"metabolism\", \"aggressiveness\", \"social\", \"greed\", \"color\"]\n            }\n          },\n          required: [\"initialAgentCount\", \"initialResourceCount\", \"globalDecay\", \"agentConfig\"]",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_teal",
+        "file": "simulation/engine.ts",
+        "line": 128,
+        "match": "teal/cyan color",
+        "snippet": "      }\n    });\n\n    // Option 2: Social / Share (or Steal if aggressive)\n    // If energy is high, maybe share? If energy low and aggressive, maybe steal?\n    visibleAgents.forEach(other => {\n      const dist = Math.max(1, this.distance(agent.position, other.position));",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_red",
+        "file": "simulation/engine.ts",
+        "line": 246,
+        "match": "red color",
+        "snippet": "      return {\n          tick: this.tickCount,\n          agentCount: this.agents.length,\n          avgEnergy: this.agents.length ? this.agents.reduce((acc, a) => acc + a.energy, 0) / this.agents.length : 0,\n      };\n  }\n}",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_deterministic_rng",
+        "file": "simulation/engine.ts",
+        "line": 17,
+        "match": "PRNG constructor with seed",
+        "snippet": "    this.config = config;\n    this.width = config.width;\n    this.height = config.height;\n    this.rng = new SeededRNG(config.seed);\n    this.initializeWorld();\n  }\n",
+        "kind": "regex"
+      },
+      {
+        "variant": "neurocanvas---autonomous-agent-sim",
+        "feature": "has_deterministic_rng",
+        "file": "utils/rng.ts",
+        "line": 8,
+        "match": "seed-based or custom PRNG",
+        "snippet": "export class SeededRNG {\n  private state: number;\n\n  constructor(seedStr: string) {\n    // Hash the string seed to a number\n    let h = 0x811c9dc5;\n    for (let i = 0; i < seedStr.length; i++) {",
+        "kind": "regex"
+      }
+    ],
+    "has_raf": true,
+    "has_cancel_raf": true,
+    "has_canvas_2d": true,
+    "has_resize": true,
+    "has_stateRef": false,
+    "setState_in_raf": false,
+    "has_dom_overlay_text": false,
+    "no_react_state_in_loop": true,
+    "has_tracks_system": false,
+    "has_timeline_file": false,
+    "has_keyframe_system": false,
+    "has_track_sequencing": false,
+    "has_overlay_component": false,
+    "has_dom_overlay_div": false,
+    "has_ui_controls": true,
+    "has_animation_controls": false,
+    "has_component_separation": false,
+    "has_fixed_timestep": false,
+    "uses_performance_now": false,
+    "uses_date_now": true,
+    "uses_ts_from_raf": false,
+    "has_loop_mod": false,
+    "has_deterministic_rng": true,
+    "force_spring": false,
+    "force_attract_to_center": false,
+    "force_repulse": false,
+    "force_noise_jitter": false,
+    "force_damping_mul": false,
+    "force_velocity_clamp": false,
+    "pass_threads": false,
+    "pass_particles": true,
+    "pass_hotspot_gradient": false,
+    "pass_trails_alpha": false,
+    "has_lerp": false,
+    "has_smoothstep": false,
+    "has_easing_words": false,
+    "has_clusters": false,
+    "has_threads": false,
+    "has_hotspots": false,
+    "has_scan_ring": false,
+    "has_stress_pulse": false,
+    "has_shadow_blur": true,
+    "has_trails": false,
+    "has_gradients": false,
+    "has_teal": true,
+    "has_red": true,
+    "uses_math_random": false,
+    "particle_count": null,
+    "cluster_count": null,
+    "duration_ms": 18000,
+    "signature": "-_-_-_-_GB_-_-_-_OK",
+    "score": 11,
+    "ENGINE_CLASS": "NON_DETERMINISTIC",
+    "files_analyzed": 9,
+    "compliance": [
+      {
+        "name": "Fixed Timestep",
+        "pass": false,
+        "description": "Использует фиксированный timestep для стабильной физики"
+      },
+      {
+        "name": "Deterministic RNG",
+        "pass": true,
+        "description": "Использует детерминированный RNG (seed-based)"
+      },
+      {
+        "name": "Performance.now",
+        "pass": false,
+        "description": "Использует performance.now() вместо Date.now()"
+      },
+      {
+        "name": "No setState in RAF",
+        "pass": true,
+        "description": "Нет setState внутри requestAnimationFrame"
+      },
+      {
+        "name": "DOM Overlay",
+        "pass": false,
+        "description": "Имеет DOM overlay поверх canvas"
+      },
+      {
+        "name": "Tracks System",
+        "pass": false,
+        "description": "Имеет систему треков/таймлайна"
+      }
+    ],
+    "compliance_score": 2,
+    "compliance_total": 6
+  },
+  {
+    "variant": "neuroscan-deterministic-visualizer",
+    "feature_events": [
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_teal",
+        "file": "App.tsx",
+        "line": 8,
+        "match": "teal/cyan color",
+        "snippet": "  return (\n    <div className=\"w-screen h-screen flex flex-col bg-neutral-900 text-white overflow-hidden font-sans\">\n      <header className=\"absolute top-0 left-0 w-full p-4 z-10 pointer-events-none\">\n        <h1 className=\"text-xl font-bold tracking-wider text-cyan-400 opacity-80 uppercase\">\n          NeuroScan <span className=\"text-white text-xs align-middle bg-cyan-900 px-1 py-0.5 rounded\">v1.0.4-beta</span>\n        </h1>\n        <p className=\"text-xs text-neutral-500 mt-1\">",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_scan_ring",
+        "file": "App.tsx",
+        "line": 2,
+        "match": "scan ring",
+        "snippet": "import React from 'react';\nimport { ScannerSimulation } from './components/ScannerSimulation';\n\nconst App: React.FC = () => {\n  return (",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_deterministic_rng",
+        "file": "App.tsx",
+        "line": 21,
+        "match": "seed-based or custom PRNG",
+        "snippet": "      </main>\n\n      <footer className=\"absolute bottom-0 w-full p-4 text-center text-[10px] text-neutral-600 pointer-events-none\">\n        SYSTEM STATUS: ONLINE • THREAT LEVEL: MODERATE • SEED: 12345\n      </footer>\n    </div>\n  );",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_shadow_blur",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 121,
+        "match": "shadowBlur",
+        "snippet": "      // Core\n      ctx.beginPath();\n      ctx.fillStyle = `rgba(255, 100, 100, ${0.6 + pulse * 0.2})`;\n      ctx.shadowBlur = 15;\n      ctx.shadowColor = 'red';\n      ctx.arc(spot.x, spot.y, 3, 0, Math.PI * 2);\n      ctx.fill();",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_gradients",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 108,
+        "match": "gradient creation",
+        "snippet": "      const pulse = Math.sin(time * 0.002 + spot.pulseOffset);\n      const radius = spot.radius + pulse * 10;\n      \n      const gradient = ctx.createRadialGradient(spot.x, spot.y, 0, spot.x, spot.y, radius);\n      gradient.addColorStop(0, `rgba(255, 60, 60, ${0.4 * spot.intensity})`);\n      gradient.addColorStop(0.4, `rgba(200, 40, 40, ${0.1 * spot.intensity})`);\n      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_trails",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 100,
+        "match": "rgba fillStyle + fillRect",
+        "snippet": "    const { width, height, particles, hotspots, scanRadius } = state;\n\n    // 1. Trails Effect (Clear with opacity)\n    ctx.fillStyle = `rgba(5, 5, 8, ${TRAIL_ALPHA})`;\n    ctx.fillRect(0, 0, width, height);\n\n    // 2. Draw Hotspots",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_teal",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 135,
+        "match": "teal/cyan color",
+        "snippet": "      ctx.strokeStyle = 'rgba(0, 255, 255, 0.5)';\n      ctx.lineWidth = 2;\n      ctx.shadowBlur = 10;\n      ctx.shadowColor = 'cyan';\n      ctx.stroke();\n\n      // Scan fill (faint)",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_red",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 122,
+        "match": "red color",
+        "snippet": "      ctx.beginPath();\n      ctx.fillStyle = `rgba(255, 100, 100, ${0.6 + pulse * 0.2})`;\n      ctx.shadowBlur = 15;\n      ctx.shadowColor = 'red';\n      ctx.arc(spot.x, spot.y, 3, 0, Math.PI * 2);\n      ctx.fill();\n      ctx.shadowBlur = 0; // Reset",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_threads",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 188,
+        "match": "lineTo + connection logic",
+        "snippet": "\n          ctx.beginPath();\n          ctx.moveTo(p.x, p.y);\n          ctx.lineTo(h.x, h.y);\n          ctx.strokeStyle = `rgba(255, ${255 * (1-proximity)}, 255, ${alpha})`;\n          ctx.lineWidth = 1;\n          ctx.stroke();",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_hotspots",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 15,
+        "match": "hotspots",
+        "snippet": "  id: number;\n}\n\ninterface Hotspot extends Point {\n  radius: number;\n  intensity: number;\n  pulseOffset: number;",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_scan_ring",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 40,
+        "match": "scan ring",
+        "snippet": "const TRAIL_ALPHA = 0.2; // Lower = longer trails\nconst CONNECTION_DISTANCE = 150;\n\nexport const ScannerSimulation: React.FC = () => {\n  const canvasRef = useRef<HTMLCanvasElement>(null);\n  const containerRef = useRef<HTMLDivElement>(null);\n",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_stress_pulse",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 105,
+        "match": "stress pulse",
+        "snippet": "\n    // 2. Draw Hotspots\n    hotspots.forEach((spot) => {\n      const pulse = Math.sin(time * 0.002 + spot.pulseOffset);\n      const radius = spot.radius + pulse * 10;\n      \n      const gradient = ctx.createRadialGradient(spot.x, spot.y, 0, spot.x, spot.y, radius);",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_resize",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 263,
+        "match": "resize handler",
+        "snippet": "      }\n    };\n\n    window.addEventListener('resize', handleResize);\n    handleResize(); // Initial setup\n\n    const rafId = requestAnimationFrame(loop);",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "pass_particles",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 113,
+        "match": "draw particles primitives",
+        "snippet": "      gradient.addColorStop(0.4, `rgba(200, 40, 40, ${0.1 * spot.intensity})`);\n      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');\n\n      ctx.beginPath();\n      ctx.fillStyle = gradient;\n      ctx.arc(spot.x, spot.y, radius, 0, Math.PI * 2);\n      ctx.fill();",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "pass_hotspot_gradient",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 139,
+        "match": "createRadialGradient + fill",
+        "snippet": "      ctx.stroke();\n\n      // Scan fill (faint)\n      const scanGradient = ctx.createRadialGradient(width / 2, height / 2, scanRadius - 50, width / 2, height / 2, scanRadius);\n      scanGradient.addColorStop(0, 'rgba(0, 255, 255, 0)');\n      scanGradient.addColorStop(1, 'rgba(0, 255, 255, 0.1)');\n      ctx.fillStyle = scanGradient;",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_stateRef",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 45,
+        "match": "stateRef",
+        "snippet": "  const containerRef = useRef<HTMLDivElement>(null);\n\n  // Mutable state reference to avoid React re-renders during animation loop\n  const stateRef = useRef<SimulationState>({\n    particles: [],\n    hotspots: [],\n    scanRadius: 0,",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_overlay_component",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 196,
+        "match": "Overlay component",
+        "snippet": "      });\n    });\n\n    // 5. HUD / Text Overlay (No DOM)\n    ctx.fillStyle = 'rgba(0, 255, 255, 0.8)';\n    ctx.font = '12px monospace';\n    ctx.fillText(`FPS: ${state.fps.toFixed(1)}`, 20, 30);",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "uses_ts_from_raf",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 95,
+        "match": "timestamp from RAF callback",
+        "snippet": "    }\n\n    state.lastTime = performance.now();\n  }, []);\n\n  const draw = (ctx: CanvasRenderingContext2D, time: number) => {\n    const state = stateRef.current;\n    const { width, height, particles, hotspots, scanRadius } = state;\n\n    // 1. Trails Effect (Clear with opacity)\n    ctx.fillStyle = `rgba(5, 5, 8, ${TRAIL_ALPHA})`;",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_deterministic_rng",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 33,
+        "match": "seed-based or custom PRNG",
+        "snippet": "  height: number;\n}\n\nconst SEED = 12345;\nconst PARTICLE_COUNT = 150;\nconst HOTSPOT_COUNT = 4;\nconst SCAN_SPEED = 300; // pixels per second",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_deterministic_rng",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 58,
+        "match": "PRNG constructor with seed",
+        "snippet": "  });\n\n  // RNG instance\n  const rngRef = useRef<SeededRNG>(new SeededRNG(SEED));\n\n  const initSimulation = useCallback((width: number, height: number) => {\n    const rng = rngRef.current;",
+        "kind": "regex"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "uses_performance_now",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 92,
+        "match": "performance.now()",
+        "snippet": "      });\n    }\n\n    state.lastTime = performance.now();\n  }, []);\n\n  const draw = (ctx: CanvasRenderingContext2D, time: number) => {",
+        "kind": "ast"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_canvas_2d",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 243,
+        "match": "getContext('2d')",
+        "snippet": "  const loop = useCallback((time: number) => {\n    const canvas = canvasRef.current;\n    if (!canvas) return;\n    const ctx = canvas.getContext('2d', { alpha: false }); // Optimize\n    if (!ctx) return;\n\n    update(time);",
+        "kind": "ast"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_raf",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 249,
+        "match": "requestAnimationFrame",
+        "snippet": "    update(time);\n    draw(ctx, time);\n\n    requestAnimationFrame(loop);\n  }, []);\n\n  // Handle Resize",
+        "kind": "ast"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_raf",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 266,
+        "match": "requestAnimationFrame",
+        "snippet": "    window.addEventListener('resize', handleResize);\n    handleResize(); // Initial setup\n\n    const rafId = requestAnimationFrame(loop);\n\n    return () => {\n      window.removeEventListener('resize', handleResize);",
+        "kind": "ast"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_cancel_raf",
+        "file": "components/ScannerSimulation.tsx",
+        "line": 270,
+        "match": "cancelAnimationFrame",
+        "snippet": "\n    return () => {\n      window.removeEventListener('resize', handleResize);\n      cancelAnimationFrame(rafId);\n    };\n  }, [initSimulation, loop]);\n",
+        "kind": "ast"
+      },
+      {
+        "variant": "neuroscan-deterministic-visualizer",
+        "feature": "has_deterministic_rng",
+        "file": "utils/rng.ts",
+        "line": 6,
+        "match": "seed-based or custom PRNG",
+        "snippet": " * Deterministic output based on the initial seed.\n */\nexport class SeededRNG {\n  private seed: number;\n\n  constructor(seed: number) {\n    this.seed = seed;",
+        "kind": "regex"
+      }
+    ],
+    "has_raf": true,
+    "has_cancel_raf": true,
+    "has_canvas_2d": true,
+    "has_resize": true,
+    "has_stateRef": true,
+    "setState_in_raf": false,
+    "has_dom_overlay_text": false,
+    "no_react_state_in_loop": true,
+    "has_tracks_system": false,
+    "has_timeline_file": false,
+    "has_keyframe_system": false,
+    "has_track_sequencing": false,
+    "has_overlay_component": true,
+    "has_dom_overlay_div": false,
+    "has_ui_controls": false,
+    "has_animation_controls": false,
+    "has_component_separation": false,
+    "has_fixed_timestep": false,
+    "uses_performance_now": true,
+    "uses_date_now": false,
+    "uses_ts_from_raf": true,
+    "has_loop_mod": false,
+    "has_deterministic_rng": true,
+    "force_spring": false,
+    "force_attract_to_center": true,
+    "force_repulse": false,
+    "force_noise_jitter": false,
+    "force_damping_mul": false,
+    "force_velocity_clamp": true,
+    "pass_threads": true,
+    "pass_particles": true,
+    "pass_hotspot_gradient": true,
+    "pass_trails_alpha": true,
+    "has_lerp": false,
+    "has_smoothstep": false,
+    "has_easing_words": false,
+    "has_clusters": false,
+    "has_threads": true,
+    "has_hotspots": true,
+    "has_scan_ring": true,
+    "has_stress_pulse": true,
+    "has_shadow_blur": true,
+    "has_trails": true,
+    "has_gradients": true,
+    "has_teal": true,
+    "has_red": true,
+    "uses_math_random": false,
+    "particle_count": 150,
+    "cluster_count": null,
+    "duration_ms": 18000,
+    "signature": "-_T_H_TR_GB_-_-_-_OK",
+    "score": 17,
+    "ENGINE_CLASS": "NON_COMPLIANT",
+    "files_analyzed": 5,
+    "compliance": [
+      {
+        "name": "Fixed Timestep",
+        "pass": false,
+        "description": "Использует фиксированный timestep для стабильной физики"
+      },
+      {
+        "name": "Deterministic RNG",
+        "pass": true,
+        "description": "Использует детерминированный RNG (seed-based)"
+      },
+      {
+        "name": "Performance.now",
+        "pass": true,
+        "description": "Использует performance.now() вместо Date.now()"
+      },
+      {
+        "name": "No setState in RAF",
+        "pass": true,
+        "description": "Нет setState внутри requestAnimationFrame"
+      },
+      {
+        "name": "DOM Overlay",
+        "pass": true,
+        "description": "Имеет DOM overlay поверх canvas"
+      },
+      {
+        "name": "Tracks System",
+        "pass": false,
+        "description": "Имеет систему треков/таймлайна"
+      }
+    ],
+    "compliance_score": 4,
+    "compliance_total": 6
+  }
+]
