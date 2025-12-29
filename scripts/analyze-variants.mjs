@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const VARIANTS_ROOT = process.argv[2] ?? "."; // по умолчанию текущая директория
-const ONLY_VARIANT = process.argv[3] ?? null; // имя папки варианта (опционально)
+const ONLY_VARIANT = process.argv[3] && process.argv[3] !== "null" ? process.argv[3] : null; // имя папки варианта (опционально)
 const OUT_CSV = process.argv[4] ?? "variants_features.csv";
 const OUT_JSON = process.argv[5] ?? "variants_features.json";
 
@@ -1013,11 +1013,102 @@ function score(row) {
   return s;
 }
 
+function calculateHybridComplianceKPI(df) {
+  const total = df.length;
+  if (total === 0) return { fixed_timestep: 0, deterministic_rng: 0, tracks_system: 0 };
+  
+  // % has_fixed_timestep
+  const fixedTimestepCount = df.filter(r => r.has_fixed_timestep).length;
+  const fixedTimestepPct = (fixedTimestepCount / total) * 100;
+  
+  // % has_deterministic_rng AND NOT uses_math_random
+  const deterministicRngCount = df.filter(r => r.has_deterministic_rng && !r.uses_math_random).length;
+  const deterministicRngPct = (deterministicRngCount / total) * 100;
+  
+  // % has_tracks_system OR has_timeline_file
+  const tracksSystemCount = df.filter(r => r.has_tracks_system || r.has_timeline_file).length;
+  const tracksSystemPct = (tracksSystemCount / total) * 100;
+  
+  return {
+    fixed_timestep: { count: fixedTimestepCount, total, pct: fixedTimestepPct },
+    deterministic_rng: { count: deterministicRngCount, total, pct: deterministicRngPct },
+    tracks_system: { count: tracksSystemCount, total, pct: tracksSystemPct },
+  };
+}
+
 function printTop(df) {
   if (!df || df.length === 0) {
     console.log("\n=== No data to display ===");
     return;
   }
+  
+  // === HYBRID COMPLIANCE KPI (главный показатель) ===
+  const kpi = calculateHybridComplianceKPI(df);
+  console.log("\n=== HYBRID COMPLIANCE KPI (Target: 70% each) ===");
+  console.log(`Fixed Timestep:        ${kpi.fixed_timestep.count}/${kpi.fixed_timestep.total}  (${kpi.fixed_timestep.pct.toFixed(1)}%)  ${kpi.fixed_timestep.pct >= 70 ? '✓' : '✗'}`);
+  console.log(`Deterministic RNG:      ${kpi.deterministic_rng.count}/${kpi.deterministic_rng.total}  (${kpi.deterministic_rng.pct.toFixed(1)}%)  ${kpi.deterministic_rng.pct >= 70 ? '✓' : '✗'}`);
+  console.log(`Tracks/Timeline System: ${kpi.tracks_system.count}/${kpi.tracks_system.total}  (${kpi.tracks_system.pct.toFixed(1)}%)  ${kpi.tracks_system.pct >= 70 ? '✓' : '✗'}`);
+  
+  // === COMPLIANCE SUMMARY ===
+  console.log("\n=== COMPLIANCE SUMMARY ===");
+  const complianceStats = {
+    STABLE: df.filter(r => r.ENGINE_CLASS === "STABLE").length,
+    SEMI: df.filter(r => r.ENGINE_CLASS === "SEMI").length,
+    CHAOTIC: df.filter(r => r.ENGINE_CLASS === "CHAOTIC").length,
+    NON_COMPLIANT: df.filter(r => r.ENGINE_CLASS === "NON_COMPLIANT").length,
+    NON_DETERMINISTIC: df.filter(r => r.ENGINE_CLASS === "NON_DETERMINISTIC").length,
+    INVALID: df.filter(r => r.ENGINE_CLASS === "INVALID").length,
+  };
+  for (const [cls, count] of Object.entries(complianceStats)) {
+    console.log(`${cls.padEnd(20)} ${String(count).padStart(3)}`);
+  }
+  
+  // === TOP ENGINE CANDIDATES (сначала по классу, потом по score) ===
+  const classOrder = { STABLE: 0, SEMI: 1, CHAOTIC: 2, NON_COMPLIANT: 3, NON_DETERMINISTIC: 4, INVALID: 5 };
+  
+  // Сортируем: сначала по классу, потом по score внутри класса
+  const sorted = df
+    .map(r => ({ ...r, classOrder: classOrder[r.ENGINE_CLASS] }))
+    .sort((a, b) => {
+      if (a.classOrder !== b.classOrder) return a.classOrder - b.classOrder;
+      return b.score - a.score;
+    });
+  
+  const stable = sorted.filter(r => r.ENGINE_CLASS === "STABLE");
+  const semi = sorted.filter(r => r.ENGINE_CLASS === "SEMI");
+  
+  if (stable.length >= 3) {
+    console.log("\n=== TOP-5 ENGINE CANDIDATES (STABLE class) ===");
+    for (const s of stable.slice(0, 5)) {
+      console.log(`${s.variant.padEnd(40)} score: ${String(s.score).padStart(3)}  [${s.signature}]`);
+    }
+  } else if (semi.length > 0) {
+    console.log("\n=== TOP-5 ENGINE CANDIDATES (SEMI class, STABLE < 3) ===");
+    for (const s of semi.slice(0, 5)) {
+      console.log(`${s.variant.padEnd(40)} score: ${String(s.score).padStart(3)}  [${s.signature}]`);
+    }
+    if (stable.length > 0) {
+      console.log("\n(Also available STABLE variants: " + stable.map(r => r.variant).join(", ") + ")");
+    }
+  } else {
+    console.log("\n=== TOP-5 ENGINE CANDIDATES (by class priority + score) ===");
+    for (const s of sorted.slice(0, 5)) {
+      console.log(`${s.variant.padEnd(40)} score: ${String(s.score).padStart(3)}  [${s.ENGINE_CLASS}]  [${s.signature}]`);
+    }
+  }
+  
+  // === Лучшие NON_COMPLIANT, но deterministic ===
+  const almostCompliant = sorted
+    .filter(r => r.ENGINE_CLASS === "NON_COMPLIANT" && r.has_deterministic_rng && !r.uses_math_random)
+    .slice(0, 5);
+  if (almostCompliant.length > 0) {
+    console.log("\n=== ALMOST COMPLIANT (NON_COMPLIANT, but deterministic) ===");
+    for (const s of almostCompliant) {
+      console.log(`${s.variant.padEnd(40)} score: ${String(s.score).padStart(3)}  [${s.signature}]`);
+    }
+  }
+  
+  // === TOP FEATURES ===
   const boolKeys = Object.keys(df[0]).filter(
     (k) => 
       k.startsWith("has_") || 
@@ -1057,47 +1148,11 @@ function printTop(df) {
     console.log(`${s.sig.padEnd(30)} ${String(s.count).padStart(2)}x  (${examples.join(", ")})`);
   }
 
-  console.log("\n=== TOP-5 ENGINE CANDIDATES (by score) ===");
-  const scored = df
-    .map((r) => ({ variant: r.variant, score: r.score, signature: r.signature }))
-    .sort((a, b) => b.score - a.score);
-  for (const s of scored.slice(0, 5)) {
-    console.log(`${s.variant.padEnd(40)} score: ${String(s.score).padStart(3)}  [${s.signature}]`);
-  }
-
   console.log("\n=== LIKELY PREMIUM (clusters+threads+hotspots+shadowBlur, NO setState_in_raf) ===");
   const premium = df.filter(
     (r) => r.has_clusters && r.has_threads && r.has_hotspots && r.has_shadow_blur && !r.setState_in_raf
   );
-  console.log(premium.length ? premium.map((r) => `${r.variant} (score: ${r.score})`).join(", ") : "none");
-  
-  console.log("\n=== COMPLIANCE SUMMARY ===");
-  const complianceStats = {
-    INVALID: df.filter(r => r.ENGINE_CLASS === "INVALID").length,
-    NON_DETERMINISTIC: df.filter(r => r.ENGINE_CLASS === "NON_DETERMINISTIC").length,
-    NON_COMPLIANT: df.filter(r => r.ENGINE_CLASS === "NON_COMPLIANT").length,
-    STABLE: df.filter(r => r.ENGINE_CLASS === "STABLE").length,
-    SEMI: df.filter(r => r.ENGINE_CLASS === "SEMI").length,
-    CHAOTIC: df.filter(r => r.ENGINE_CLASS === "CHAOTIC").length,
-  };
-  for (const [cls, count] of Object.entries(complianceStats)) {
-    console.log(`${cls.padEnd(20)} ${String(count).padStart(3)}`);
-  }
-  
-  // Топ по compliance score
-  console.log("\n=== TOP-5 BY COMPLIANCE SCORE ===");
-  const byCompliance = df
-    .filter(r => r.compliance_score !== undefined)
-    .map(r => ({ variant: r.variant, compliance: r.compliance_score, total: r.compliance_total, class: r.ENGINE_CLASS }))
-    .sort((a, b) => {
-      // Сначала по compliance score, потом по классу (STABLE > SEMI > CHAOTIC > NON_COMPLIANT > NON_DETERMINISTIC > INVALID)
-      const classOrder = { STABLE: 0, SEMI: 1, CHAOTIC: 2, NON_COMPLIANT: 3, NON_DETERMINISTIC: 4, INVALID: 5 };
-      if (a.compliance !== b.compliance) return b.compliance - a.compliance;
-      return classOrder[a.class] - classOrder[b.class];
-    });
-  for (const s of byCompliance.slice(0, 5)) {
-    console.log(`${s.variant.padEnd(40)} compliance: ${s.compliance}/${s.total}  [${s.class}]`);
-  }
+  console.log(premium.length ? premium.map((r) => `${r.variant} (score: ${r.score}, class: ${r.ENGINE_CLASS})`).join(", ") : "none");
 }
 
 async function main() {
@@ -1125,19 +1180,13 @@ async function main() {
     ];
     const files = await fg(patterns, { cwd: dir, absolute: true });
 
-    // Проверка: вариант должен содержать хотя бы один из ключевых файлов
-    const hasKeyFile = files.some(f => {
-      const rel = path.relative(dir, f).replace(/\\/g, '/');
-      return rel === 'App.tsx' || 
-             rel === 'main.tsx' || 
-             rel === 'index.tsx' ||
-             rel.startsWith('src/') ||
-             rel.includes('/App.tsx') ||
-             rel.includes('/main.tsx');
-    });
+    // Диагностика для одного варианта (временно, для отладки)
+    if (variantName === "aetheris_-hybrid-simulation-engine") {
+      console.log(`  🔍 DEBUG ${variantName}: files found:`, files.slice(0, 20).map(f => path.relative(dir, f).replace(/\\/g, '/')));
+    }
 
-    if (files.length === 0 || !hasKeyFile) {
-      console.log(`  ⚠️  ${variantName}: no valid TS/TSX files found (found ${files.length} files, hasKeyFile: ${hasKeyFile}), skipping`);
+    if (files.length === 0) {
+      console.log(`  ⚠️  ${variantName}: no TS/TSX files, skipping`);
       continue;
     }
 

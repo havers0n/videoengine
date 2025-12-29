@@ -8,29 +8,39 @@ const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, "..");
 
 /**
- * Скрипт миграции текущих данных из data/ в runs/legacy_01/
+ * Скрипт миграции данных из указанной директории в runs/<RUN_ID>/
  * 
  * Использование:
- *   npm run migrate:legacy
+ *   node scripts/migrate-legacy.mjs <SOURCE_DIR> <RUN_ID>
+ * 
+ * Примеры:
+ *   node scripts/migrate-legacy.mjs DataNext legacy_02
+ *   node scripts/migrate-legacy.mjs DataNextV2 legacy_03
+ *   node scripts/migrate-legacy.mjs DataNextV3 legacy_04
  * 
  * Процесс:
- *   1. Копирует все варианты из data/ в runs/legacy_01/extracted/
- *   2. Нормализует в runs/legacy_01/variants/
+ *   1. Копирует все варианты из <SOURCE_DIR>/ в runs/<RUN_ID>/extracted/
+ *   2. Нормализует в runs/<RUN_ID>/variants/
  *   3. Запускает анализ
  *   4. Создает baseline master dataset
  */
 
-const LEGACY_RUN = path.join(PROJECT_ROOT, "runs", "legacy_01");
-const DATA_DIR = path.join(PROJECT_ROOT, "data");
+const SOURCE_DIR_NAME = process.argv[2] ?? "data";
+const RUN_ID = process.argv[3] ?? "legacy_01";
+
+const LEGACY_RUN = path.join(PROJECT_ROOT, "runs", RUN_ID);
+const DATA_DIR = path.join(PROJECT_ROOT, SOURCE_DIR_NAME);
 const EXTRACTED_DIR = path.join(LEGACY_RUN, "extracted");
 const VARIANTS_DIR = path.join(LEGACY_RUN, "variants");
 const REPORTS_DIR = path.join(LEGACY_RUN, "reports");
 
 console.log("\n=== Миграция legacy данных ===\n");
+console.log(`Источник: ${SOURCE_DIR_NAME}`);
+console.log(`Run ID: ${RUN_ID}\n`);
 
-// Проверка существования data/
+// Проверка существования исходной директории
 if (!fs.existsSync(DATA_DIR)) {
-  console.error(`❌ Директория data/ не найдена: ${DATA_DIR}`);
+  console.error(`❌ Директория ${SOURCE_DIR_NAME}/ не найдена: ${DATA_DIR}`);
   process.exit(1);
 }
 
@@ -152,8 +162,8 @@ function normalizeVariant(extractedPath, variantName) {
 }
 
 async function main() {
-  // 1. Копирование вариантов из data/ в extracted/
-  console.log("📦 Копирование вариантов из data/...");
+  // 1. Копирование вариантов из исходной директории в extracted/
+  console.log(`📦 Копирование вариантов из ${SOURCE_DIR_NAME}/...`);
   
   const variantDirs = fs.readdirSync(DATA_DIR, { withFileTypes: true })
     .filter(d => d.isDirectory() && !d.name.startsWith(".") && d.name !== "scripts" && d.name !== "node_modules")
@@ -168,24 +178,29 @@ async function main() {
     const extractedPath = path.join(EXTRACTED_DIR, variant.name);
     
     if (fs.existsSync(extractedPath)) {
-      console.log(`  ⚠️  ${variant.name}: уже существует в extracted/, пропускаем`);
-      continue;
+      console.log(`  ⚠️  ${variant.name}: уже существует в extracted/, пропускаем копирование`);
+    } else {
+      // Создаем папку назначения перед копированием
+      fs.mkdirSync(extractedPath, { recursive: true });
+      
+      console.log(`  📁 ${variant.name}`);
+      copyDirectory(variant.path, extractedPath);
     }
     
-    // Создаем папку назначения перед копированием
-    fs.mkdirSync(extractedPath, { recursive: true });
-    
-    console.log(`  📁 ${variant.name}`);
-    copyDirectory(variant.path, extractedPath);
-    
-    // 2. Нормализация
+    // 2. Нормализация (всегда вызываем, даже если extracted уже существует)
     normalizeVariant(extractedPath, variant.name);
   }
   
   // 3. Запуск анализа
   console.log("\n=== Запуск анализа ===");
   
-  const analyzeScript = path.join(PROJECT_ROOT, "data", "scripts", "analyze-variants.mjs");
+  const analyzeScript = path.join(PROJECT_ROOT, "scripts", "analyze-variants.mjs");
+  
+  // Проверка существования скрипта анализа
+  if (!fs.existsSync(analyzeScript)) {
+    console.error(`❌ Скрипт анализа не найден: ${analyzeScript}`);
+    process.exit(1);
+  }
   const outJson = path.join(REPORTS_DIR, "variants_features.json");
   const outCsv = path.join(REPORTS_DIR, "variants_features.csv");
   
@@ -200,7 +215,7 @@ async function main() {
     process.exit(1);
   }
   
-  // 4. Создание baseline master dataset
+  // 4. Создание baseline master dataset (merge, не overwrite)
   console.log("\n=== Создание baseline master dataset ===");
   
   const masterDatasetPath = path.join(PROJECT_ROOT, "master", "dataset.json");
@@ -209,12 +224,34 @@ async function main() {
   // Добавляем run_id к каждому варианту
   const enrichedData = runData.map(v => ({
     ...v,
-    run_id: "legacy_01",
+    run_id: RUN_ID,
     ingested_at: new Date().toISOString(),
   }));
   
-  fs.writeFileSync(masterDatasetPath, JSON.stringify(enrichedData, null, 2), "utf8");
-  console.log(`✓ Master dataset создан: ${masterDatasetPath} (${enrichedData.length} вариантов)`);
+  // Merge с существующим dataset (если есть)
+  let existingData = [];
+  if (fs.existsSync(masterDatasetPath)) {
+    try {
+      existingData = JSON.parse(fs.readFileSync(masterDatasetPath, "utf8"));
+      console.log(`  ℹ️  Загружен существующий dataset: ${existingData.length} вариантов`);
+    } catch (e) {
+      console.warn(`  ⚠️  Не удалось загрузить существующий dataset: ${e.message}`);
+      existingData = [];
+    }
+  }
+  
+  // Объединяем: добавляем новые варианты, избегая дубликатов по variant+run_id
+  const existingKeys = new Set(
+    existingData.map(v => `${v.variant}::${v.run_id || ''}`)
+  );
+  const newVariants = enrichedData.filter(
+    v => !existingKeys.has(`${v.variant}::${v.run_id || ''}`)
+  );
+  
+  const mergedData = [...existingData, ...newVariants];
+  
+  fs.writeFileSync(masterDatasetPath, JSON.stringify(mergedData, null, 2), "utf8");
+  console.log(`✓ Master dataset обновлен: ${masterDatasetPath} (добавлено ${newVariants.length} новых, всего ${mergedData.length} вариантов)`);
   
   // 5. Создание отчета
   const reportPath = path.join(REPORTS_DIR, "run_report.md");
