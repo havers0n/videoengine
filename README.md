@@ -1,56 +1,157 @@
-﻿# Videoengine R&D
+﻿VideoEngine R&D — Frozen Research Snapshot
 
-> **⚠️ ARCHIVED REPOSITORY / FROZEN**  
-> This repository is archived and no longer maintained. It serves as a research artifact for analyzing LLM-generated animation engines and static code analysis.  
-> **This is NOT production code, NOT a runtime validator, NOT an active project.**  
-> **Successor**: videoengine-lab (link will be added after creation)
+⚠️ ARCHIVED / FROZEN REPOSITORY
+This repository is intentionally frozen and will not receive further updates.
 
----
+It represents a completed research phase focused on analyzing and classifying AI-generated animation engines.
 
-R&D project for generating animation engines using Gemini.
+➜ Successor project: videoengine-lab (next-generation experimental pipeline)
 
-## Quick Start
+What This Repository Is
 
-### Legacy Data Migration
+This project is a research sandbox for studying how LLMs (Gemini in particular) generate animation engines and what structural patterns lead to stable, deterministic, and high-quality results.
 
-If you have data in `data/`, migrate it:
+It is not:
 
-```bash
+a production-ready animation framework
+
+a reusable library
+
+a runtime engine
+
+It is:
+
+a controlled dataset of generated engines
+
+a feature-extraction and scoring system
+
+a forensic analysis of “what makes an animation engine stable”
+
+Think of it as a lab notebook + dataset, not a product.
+
+What Was Studied
+
+Each generated “engine” was analyzed for:
+
+Determinism (seeded RNG, fixed timestep)
+
+Runtime stability (no React state in render loops)
+
+Structural patterns (clusters, hotspots, trails, timelines)
+
+Rendering approach (Canvas, DOM overlay, etc.)
+
+Engine hygiene (cleanup, RAF lifecycle, time handling)
+
+The goal was to reverse-engineer what differentiates stable engines from chaotic ones.
+
+Key Outcome
+
+Out of 71 generated variants, only 7 qualified as truly STABLE.
+
+The analysis revealed a very strong signal:
+
+Stability is not about visuals —
+it is about simulation architecture.
+
+This repository contains the data and tooling that led to that conclusion.
+
+Repository Structure
+/runs/            # All generation runs (immutable history)
+/master/          # Aggregated datasets and computed features
+/data/            # Legacy raw inputs (deprecated)
+/scripts/          # Analysis, migration, and tooling scripts
+/spec/             # Formal specs (features, scoring, rules)
+/snapshots/         # Frozen dataset snapshots
+
+Key Concepts
+Runs
+
+Each run represents one controlled batch of generated engines.
+
+runs/YYYY-MM-DD_HH/
+  ├─ variants/
+  ├─ reports/
+  └─ metadata.json
+
+Master Dataset
+
+Aggregated view across all runs:
+
+master/features.json
+
+master/features.csv
+
+master/feature_diff_stable_vs_other.json
+
+Used for statistical analysis and feature correlation.
+
+What This Repo Is Not Doing Anymore
+
+❌ No new generations
+
+❌ No prompt experimentation
+
+❌ No new scoring logic
+
+❌ No further ingestion
+
+All future experimentation moves to videoengine-lab.
+
+Why This Was Frozen
+
+Because the research phase succeeded.
+
+We now know:
+
+Which architectural traits actually matter
+
+Which patterns are noise
+
+Which features predict stability with high confidence
+
+Continuing experimentation here would contaminate the dataset.
+
+Successor Project
+
+videoengine-lab will:
+
+Generate engines programmatically (Playwright-driven)
+
+Use controlled prompt mutations
+
+Track lineage, seed, and intent
+
+Measure deltas against this dataset as a baseline
+
+This repository becomes the ground truth reference.
+
+Quick Reference
+Legacy migration (for archival only)
 npm run migrate:legacy
-```
 
-### New Run
+Analyze existing run
+npm run analyze -- runs/YYYY-MM-DD_HH
 
-1. Create directory: `mkdir runs/2025-12-29_01`
-2. Place zip files in `runs/2025-12-29_01/zips/`
-3. Run ingest: `npm run ingest -- runs/2025-12-29_01`
+Generate statistics
+npm run process:stats -- master/features.json
 
-## Structure
+Documentation
 
-- `/runs/` - all generation runs (run-based format)
-- `/master/` - aggregated dataset and configuration
-- `/data/` - legacy data (will be migrated to `runs/legacy_01/`)
-- `/spec/` - project specifications (schema, classification rules, compliance rules, scoring rules)
-- `/scripts/` - analysis and processing scripts
+MIGRATION_MANIFEST.md — known issues & migration notes
 
-For more details, see [README_RUNS.md](./README_RUNS.md)
+ANALYSIS_AND_IMPROVEMENTS.md — conclusions & insights
 
-## Commands
+DEEP_SYSTEM_ANALYSIS.md — deep dive into stability mechanics
 
-- `npm run ingest -- runs/YYYY-MM-DD_HH` - ingest a new run
-- `npm run migrate:legacy` - migrate legacy data
-- `npm run analyze -- <path>` - analyze variants
-- `npm run process:stats -- <json>` - statistics on results
+spec/ — formal feature & scoring definitions
 
-## Documentation
+Final Note
 
-- [MIGRATION_MANIFEST.md](./MIGRATION_MANIFEST.md) - Migration guidelines and known issues
-- [ANALYSIS_AND_IMPROVEMENTS.md](./ANALYSIS_AND_IMPROVEMENTS.md) - System analysis and improvements
-- [DEEP_SYSTEM_ANALYSIS.md](./DEEP_SYSTEM_ANALYSIS.md) - Deep technical analysis
-- [spec/](./spec/) - Project specifications (dataset schema, classification rules, compliance rules, scoring rules)
+This repository represents a closed chapter.
 
-## Important Notes
+It exists so future systems can answer:
 
-⚠️ **DO NOT COPY LEGACY SEMANTICS** - The classification system has known bugs. See [MIGRATION_MANIFEST.md](./MIGRATION_MANIFEST.md) for details.
+“Why does this engine behave correctly?”
 
-⚠️ **Scoring v2 requires recalculation** - Current `master/scoring_v2.json` and `master/feature_diff_stable_vs_other.json` are based on incorrect classification and should be recalculated after fixing the classification logic.
+—not by intuition, but by data.
