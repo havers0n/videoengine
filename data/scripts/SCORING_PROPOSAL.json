@@ -1,0 +1,69 @@
+{
+  "new_weights": {
+    "has_canvas_2d": 2,
+    "has_raf": 2,
+    "setState_in_raf": -5,
+    "has_fixed_timestep": 3,
+    "has_deterministic_rng": 3,
+    "has_stateRef": 2,
+    "uses_performance_now": 2,
+    "uses_date_now": -2,
+    "has_threads": 2,
+    "has_clusters": 2,
+    "has_hotspots": 1,
+    "has_trails": 2,
+    "has_shadow_blur": 2,
+    "has_gradients": 1,
+    "force_spring": 2,
+    "force_damping_mul": 2,
+    "force_noise_jitter": 1,
+    "has_resize": 1,
+    "has_cancel_raf": 1,
+    "has_teal": 0,
+    "has_red": 0,
+    "uses_ts_from_raf": 0
+  },
+  "rationale": {
+    "too_common_features": [
+      "has_raf",
+      "has_cancel_raf",
+      "has_canvas_2d",
+      "has_resize",
+      "pass_particles",
+      "has_teal",
+      "has_red"
+    ],
+    "rare_features": [
+      "setState_in_raf",
+      "has_dom_overlay_text",
+      "has_fixed_timestep",
+      "uses_date_now",
+      "force_spring",
+      "force_noise_jitter",
+      "force_damping_mul",
+      "has_smoothstep",
+      "has_clusters",
+      "has_scan_ring"
+    ],
+    "stability_features": [
+      "has_fixed_timestep",
+      "has_deterministic_rng",
+      "has_stateRef",
+      "uses_performance_now"
+    ],
+    "anti_patterns": [
+      "setState_in_raf",
+      "uses_date_now",
+      "no_deterministic_rng"
+    ]
+  },
+  "recommended_changes": [
+    "Увеличить вес has_fixed_timestep с 1 до 3",
+    "Добавить has_deterministic_rng с весом 3",
+    "Добавить has_stateRef с весом 2",
+    "Добавить uses_performance_now с весом 2",
+    "Добавить штраф uses_date_now: -2",
+    "Исключить has_teal и has_red из scoring (слишком частые)",
+    "Добавить отдельные метрики: stability_score и premium_score"
+  ]
+}

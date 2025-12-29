@@ -1,0 +1,16 @@
+{
+  "variants": [
+    "canvas-2-d-simulation",
+    "deterministic-flux-engine (1)",
+    "verlet-threads (1)",
+    "vite-react-canvas-animation",
+    "enginepromt"
+  ],
+  "patterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.next/**",
+    "**/build/**"
+  ],
+  "notes": "Автоматически сгенерированный список вариантов для исключения из анализа"
+}

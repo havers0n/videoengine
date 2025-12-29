@@ -1,0 +1,27 @@
+{
+  "name": "videosss-analyzer",
+  "version": "1.0.0",
+  "description": "Анализатор вариантов визуализаций на TypeScript AST",
+  "type": "module",
+  "scripts": {
+    "analyze": "node data/scripts/analyze-variants.mjs data",
+    "analyze:one": "node data/scripts/analyze-variants.mjs data",
+    "process": "node data/scripts/process-variants.mjs",
+    "process:stats": "node data/scripts/process-variants.mjs variants_features.json stats",
+    "process:top": "node data/scripts/process-variants.mjs variants_features.json top",
+    "process:signatures": "node data/scripts/process-variants.mjs variants_features.json signatures",
+    "identify:junk": "node data/scripts/identify-junk.mjs",
+    "dedup": "node data/scripts/dedup-by-content.mjs",
+    "improve:scoring": "node data/scripts/improve-scoring.mjs",
+    "analyze:clean": "node data/scripts/clean-pipeline.mjs"
+  },
+  "devDependencies": {
+    "ts-morph": "^24.0.0",
+    "fast-glob": "^3.3.2",
+    "csv-stringify": "^6.5.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+

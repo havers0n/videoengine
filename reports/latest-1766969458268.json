@@ -1,0 +1,102 @@
+{
+  "timestamp": "2025-12-29T00:50:58.266Z",
+  "summary": {
+    "total_variants": 60,
+    "clean_variants": 55,
+    "excluded": 5
+  },
+  "missing_features": {
+    "rareFeatures": [
+      {
+        "key": "setState_in_raf",
+        "count": 1,
+        "pct": 1.8181818181818181
+      },
+      {
+        "key": "has_fixed_timestep",
+        "count": 1,
+        "pct": 1.8181818181818181
+      },
+      {
+        "key": "force_noise_jitter",
+        "count": 2,
+        "pct": 3.6363636363636362
+      },
+      {
+        "key": "has_dom_overlay_text",
+        "count": 5,
+        "pct": 9.090909090909092
+      },
+      {
+        "key": "uses_date_now",
+        "count": 5,
+        "pct": 9.090909090909092
+      },
+      {
+        "key": "force_damping_mul",
+        "count": 5,
+        "pct": 9.090909090909092
+      }
+    ],
+    "missingFeatures": []
+  },
+  "overproduced_clusters": [
+    {
+      "signature": "-_T_H_TR_GB_-_-_-_OK",
+      "count": 12
+    },
+    {
+      "signature": "-_T_-_TR_-_-_-_-_OK",
+      "count": 4
+    },
+    {
+      "signature": "-_-_H_TR_GB_-_-_-_OK",
+      "count": 3
+    },
+    {
+      "signature": "-_-_-_TR_-_-_-_-_OK",
+      "count": 3
+    },
+    {
+      "signature": "-_T_-_-_GB_-_-_-_OK",
+      "count": 3
+    }
+  ],
+  "prompt_targets": [
+    {
+      "priority": "HIGH",
+      "pattern": "fixed_timestep",
+      "description": "Фиксированный timestep для стабильной физики",
+      "current_count": 1,
+      "target_count": 11
+    },
+    {
+      "priority": "MEDIUM",
+      "pattern": "clusters+threads+hotspots+shadowBlur",
+      "description": "Комбинация кластеров, нитей, хотспотов и размытия",
+      "current_count": 4,
+      "target_count": 14
+    },
+    {
+      "priority": "MEDIUM",
+      "pattern": "setState_in_raf",
+      "description": "Редкая фича: setState_in_raf (сейчас 1, 1.8%)",
+      "current_count": 1,
+      "target_count": 9
+    },
+    {
+      "priority": "MEDIUM",
+      "pattern": "has_fixed_timestep",
+      "description": "Редкая фича: has_fixed_timestep (сейчас 1, 1.8%)",
+      "current_count": 1,
+      "target_count": 9
+    },
+    {
+      "priority": "MEDIUM",
+      "pattern": "force_noise_jitter",
+      "description": "Редкая фича: force_noise_jitter (сейчас 2, 3.6%)",
+      "current_count": 2,
+      "target_count": 9
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Verlet Threads",
+  "description": "High-performance Verlet integration physics visualization with dynamic constraint solving, distance-based breaking/reforming threads, and retro-neon aesthetics using Canvas2D.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,15 @@
+{
+  "groups": [
+    {
+      "hash": "3760f32fb8364655",
+      "keep": "emergent-analytic-system",
+      "remove": [
+        "enginepromt"
+      ]
+    }
+  ],
+  "summary": {
+    "total_groups": 1,
+    "total_to_remove": 1
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Risk Heatmap Scanner V2",
+  "description": "High-performance Canvas 2D animation simulating a risk heatmap scanner with deterministic RNG and a fixed timestep loop.",
+  "requestFramePermissions": []
+}

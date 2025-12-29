@@ -1,0 +1,5 @@
+{
+  "name": "Causal Engine",
+  "description": "A deterministic physics engine exploring time-delayed causality and information propagation. Entities interact based on past states, simulating the speed of light constraint.",
+  "requestFramePermissions": []
+}

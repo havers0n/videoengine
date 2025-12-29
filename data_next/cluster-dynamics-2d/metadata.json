@@ -1,0 +1,5 @@
+{
+  "name": "Cluster Dynamics 2D",
+  "description": "High-performance particle simulation with spatial hashing, fixed timestep physics (1/120s), and cluster-based attraction/repulsion dynamics.",
+  "requestFramePermissions": []
+}

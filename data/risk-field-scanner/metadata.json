@@ -1,0 +1,5 @@
+{
+  "name": "Risk Field Scanner",
+  "description": "A high-performance Canvas2D visualization featuring particle threads, field forces, and a radial scanning mechanism that interacts with risk hotspots.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Deterministic Flux Engine",
+  "description": "A high-performance, deterministic particle physics engine using a fixed-timestep accumulator loop. Features glowing trails, proximity threads, and dynamic hotspots, rendered entirely via Canvas2D.",
+  "requestFramePermissions": []
+}
