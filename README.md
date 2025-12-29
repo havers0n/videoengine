@@ -1,41 +1,56 @@
 ﻿# Videoengine R&D
 
-> **⚠️ АРХИВНЫЙ РЕПОЗИТОРИЙ / FROZEN**  
-> Этот репозиторий заархивирован и больше не поддерживается. Он служит исследовательским артефактом для анализа LLM-генерированных анимационных движков и статического анализа кода.  
-> **Это НЕ production-код, НЕ runtime-валидатор, НЕ активный проект.**  
-> **Преемник**: videoengine-lab (ссылка будет добавлена после создания)
+> **⚠️ ARCHIVED REPOSITORY / FROZEN**  
+> This repository is archived and no longer maintained. It serves as a research artifact for analyzing LLM-generated animation engines and static code analysis.  
+> **This is NOT production code, NOT a runtime validator, NOT an active project.**  
+> **Successor**: videoengine-lab (link will be added after creation)
 
 ---
 
-R&D проект по генерации анимационных движков с использованием Gemini.
+R&D project for generating animation engines using Gemini.
 
-## Быстрый Старт
+## Quick Start
 
-### Миграция Legacy Данных
+### Legacy Data Migration
 
-Если у вас есть данные в `data/`, мигрируйте их:
+If you have data in `data/`, migrate it:
 
 ```bash
 npm run migrate:legacy
 ```
 
-### Новый Run
+### New Run
 
-1. Создайте директорию: `mkdir runs/2025-12-29_01`
-2. Поместите zip-файлы в `runs/2025-12-29_01/zips/`
-3. Запустите ингест: `npm run ingest -- runs/2025-12-29_01`
+1. Create directory: `mkdir runs/2025-12-29_01`
+2. Place zip files in `runs/2025-12-29_01/zips/`
+3. Run ingest: `npm run ingest -- runs/2025-12-29_01`
 
-## Структура
+## Structure
 
-- `/runs/` - все прогоны генерации (run-based формат)
-- `/master/` - агрегированный датасет и конфигурация
-- `/data/` - legacy данные (будут мигрированы в runs/legacy_01/)
+- `/runs/` - all generation runs (run-based format)
+- `/master/` - aggregated dataset and configuration
+- `/data/` - legacy data (will be migrated to `runs/legacy_01/`)
+- `/spec/` - project specifications (schema, classification rules, compliance rules, scoring rules)
+- `/scripts/` - analysis and processing scripts
 
-Подробнее см. [README_RUNS.md](./README_RUNS.md)
+For more details, see [README_RUNS.md](./README_RUNS.md)
 
-## Команды
+## Commands
 
-- `npm run ingest -- runs/YYYY-MM-DD_HH` - ингест нового run
-- `npm run migrate:legacy` - миграция legacy данных
-- `npm run analyze -- <path>` - анализ вариантов
-- `npm run process:stats -- <json>` - статистика по результатам
+- `npm run ingest -- runs/YYYY-MM-DD_HH` - ingest a new run
+- `npm run migrate:legacy` - migrate legacy data
+- `npm run analyze -- <path>` - analyze variants
+- `npm run process:stats -- <json>` - statistics on results
+
+## Documentation
+
+- [MIGRATION_MANIFEST.md](./MIGRATION_MANIFEST.md) - Migration guidelines and known issues
+- [ANALYSIS_AND_IMPROVEMENTS.md](./ANALYSIS_AND_IMPROVEMENTS.md) - System analysis and improvements
+- [DEEP_SYSTEM_ANALYSIS.md](./DEEP_SYSTEM_ANALYSIS.md) - Deep technical analysis
+- [spec/](./spec/) - Project specifications (dataset schema, classification rules, compliance rules, scoring rules)
+
+## Important Notes
+
+⚠️ **DO NOT COPY LEGACY SEMANTICS** - The classification system has known bugs. See [MIGRATION_MANIFEST.md](./MIGRATION_MANIFEST.md) for details.
+
+⚠️ **Scoring v2 requires recalculation** - Current `master/scoring_v2.json` and `master/feature_diff_stable_vs_other.json` are based on incorrect classification and should be recalculated after fixing the classification logic.
