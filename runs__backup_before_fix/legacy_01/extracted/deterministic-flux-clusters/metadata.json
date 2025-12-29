@@ -1,0 +1,5 @@
+{
+  "name": "Deterministic Flux Clusters",
+  "description": "A high-performance, deterministic particle simulation using Canvas2D. Features clustered spring dynamics, velocity clamping, threaded connections, and glowing hotspots without Math.random().",
+  "requestFramePermissions": []
+}

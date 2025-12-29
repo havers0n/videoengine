@@ -1,0 +1,5 @@
+{
+  "name": "NeuroCluster",
+  "description": "A high-performance fixed-timestep particle simulation using spatial hashing. Particles self-organize into clusters with distinct behaviors: internal cohesion and external repulsion, visualizing complex emergent dynamics with neon trails and connectivity threads.",
+  "requestFramePermissions": []
+}

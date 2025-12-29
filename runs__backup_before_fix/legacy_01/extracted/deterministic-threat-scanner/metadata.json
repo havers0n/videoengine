@@ -1,0 +1,5 @@
+{
+  "name": "Deterministic Threat Scanner",
+  "description": "A high-performance, deterministic Canvas 2D visualization featuring a scanning ring, risk hotspots, and thread connections. Uses seeded RNG and runs purely on the canvas without DOM overlays.",
+  "requestFramePermissions": []
+}

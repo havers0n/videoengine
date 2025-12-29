@@ -1,0 +1,5 @@
+{
+  "name": "Verlet Elasticity Network",
+  "description": "A high-performance deterministic Verlet physics simulation demonstrating elastic stability in a thread network. Features cluster anchors, hotspot deformations, and tension visualization across three narrative phases.",
+  "requestFramePermissions": []
+}

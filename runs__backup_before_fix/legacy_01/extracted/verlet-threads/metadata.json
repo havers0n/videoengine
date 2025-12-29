@@ -1,0 +1,5 @@
+{
+  "name": "Verlet Threads",
+  "description": "A high-performance Verlet integration physics simulation with dynamic constraint solving, deterministic RNG, and visual effects like motion trails and tension hotspots.",
+  "requestFramePermissions": []
+}

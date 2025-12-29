@@ -1,0 +1,5 @@
+{
+  "name": "Event-driven Causality Engine",
+  "description": "A high-performance deterministic Canvas2D simulation exploring physics-based causality through scheduled events (Shock, Rebalancing, Stabilization) with integrated Gemini-powered narration.",
+  "requestFramePermissions": []
+}

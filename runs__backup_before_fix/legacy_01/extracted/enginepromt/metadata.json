@@ -1,0 +1,5 @@
+{
+  "name": "Emergent Analytic System",
+  "description": "A procedural animation engine demonstrating signal emergence from noise using React and Canvas.",
+  "requestFramePermissions": []
+}

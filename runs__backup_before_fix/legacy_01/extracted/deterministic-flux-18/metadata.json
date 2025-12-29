@@ -1,0 +1,5 @@
+{
+  "name": "Deterministic Flux 18",
+  "description": "A high-performance, deterministic 2D Canvas particle simulation running a fixed-timestep physics engine. It progresses through three distinct phases: Calm, Chaos, and Order over exactly 18 seconds.",
+  "requestFramePermissions": []
+}

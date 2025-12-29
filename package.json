@@ -13,9 +13,11 @@
     "identify:junk": "node data/scripts/identify-junk.mjs",
     "dedup": "node data/scripts/dedup-by-content.mjs",
     "improve:scoring": "node data/scripts/improve-scoring.mjs",
+    "improve:scoring:v2": "node scripts/improve-scoring-v2.mjs",
     "analyze:clean": "node data/scripts/clean-pipeline.mjs",
     "ingest": "node scripts/ingest.mjs",
-    "migrate:legacy": "node scripts/migrate-legacy.mjs"
+    "migrate:legacy": "node scripts/migrate-legacy.mjs",
+    "generate:prompt-constraints": "node scripts/generate-prompt-constraints.mjs"
   },
   "devDependencies": {
     "adm-zip": "^0.5.16",

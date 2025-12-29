@@ -1,0 +1,5 @@
+{
+  "name": "Deterministic Risk Simulation",
+  "description": "A fixed-timestep deterministic physics engine visualizing hidden risk analysis in a network of connected clusters.",
+  "requestFramePermissions": []
+}

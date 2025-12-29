@@ -1,0 +1,5 @@
+{
+  "name": "Emergent Agent Swarm",
+  "description": "An agent-based simulation demonstrating emergent behaviors like clustering, alignment, and avoidance through local interactions and state-driven dynamics.",
+  "requestFramePermissions": []
+}

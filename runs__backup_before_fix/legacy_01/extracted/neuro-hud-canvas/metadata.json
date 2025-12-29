@@ -1,0 +1,5 @@
+{
+  "name": "Neuro-HUD Canvas",
+  "description": "A high-performance, UI-free Canvas 2D visualization featuring deterministic HUD metrics, particle systems, dynamic threading, and neon glow effects suitable for sci-fi interfaces.",
+  "requestFramePermissions": []
+}

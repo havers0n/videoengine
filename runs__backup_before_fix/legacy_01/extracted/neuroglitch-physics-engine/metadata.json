@@ -1,0 +1,5 @@
+{
+  "name": "NeuroGlitch Physics Engine",
+  "description": "A high-performance React + Canvas2D particle animation engine featuring StateRef architecture, clustered spring physics, fluid threading, and time-based risk zones.",
+  "requestFramePermissions": []
+}

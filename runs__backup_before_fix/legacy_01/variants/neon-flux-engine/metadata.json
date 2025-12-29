@@ -1,0 +1,5 @@
+{
+  "name": "Neon Flux Engine",
+  "description": "A high-performance Canvas2D engine using fixed timestep, deterministic RNG, and ref-based state management for React.",
+  "requestFramePermissions": []
+}

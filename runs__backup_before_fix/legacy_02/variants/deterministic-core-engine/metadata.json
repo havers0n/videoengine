@@ -1,0 +1,5 @@
+{
+  "name": "Deterministic Core Engine",
+  "description": "A minimal, non-visual physics engine demonstrating fixed timestep architecture, deterministic state evolution, and observable internal accumulator/state metrics.",
+  "requestFramePermissions": []
+}

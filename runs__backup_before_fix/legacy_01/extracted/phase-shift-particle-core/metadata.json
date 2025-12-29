@@ -1,0 +1,5 @@
+{
+  "name": "Phase-Shift Particle Core",
+  "description": "A high-performance deterministic Canvas 2D particle simulation featuring phase-toggled attraction/repulsion fields, dynamic threading, trails, and energetic hotspots.",
+  "requestFramePermissions": []
+}

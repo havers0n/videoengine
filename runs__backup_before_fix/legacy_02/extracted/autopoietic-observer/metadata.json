@@ -1,0 +1,5 @@
+{
+  "name": "Autopoietic Observer",
+  "description": "A deterministic Cyclic Cellular Automaton that observes its own entropy and stability, self-adjusting parameters to maintain a state of critical complexity.",
+  "requestFramePermissions": []
+}

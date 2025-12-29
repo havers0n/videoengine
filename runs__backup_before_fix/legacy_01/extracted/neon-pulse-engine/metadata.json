@@ -1,0 +1,5 @@
+{
+  "name": "Neon Pulse Engine",
+  "description": "A high-performance, deterministic generative art engine using React 18, Canvas 2D, and seeded RNG. Features particle threads, impulse shockwaves, and neon aesthetics without render-loop state updates.",
+  "requestFramePermissions": []
+}

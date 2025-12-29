@@ -1,0 +1,5 @@
+{
+  "name": "Nebula Flux Engine",
+  "description": "A high-performance, fixed-timestep Canvas2D animation engine featuring deterministic physics, particle systems, and neon visuals running at 120Hz simulation speed.",
+  "requestFramePermissions": []
+}

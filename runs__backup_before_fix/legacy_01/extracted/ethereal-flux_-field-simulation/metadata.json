@@ -1,0 +1,5 @@
+{
+  "name": "Ethereal Flux: Field Simulation",
+  "description": "A high-performance 2D particle simulation driven by an evolving Perlin noise flow field. Features interactive parameters and AI-driven aesthetic controls using Gemini.",
+  "requestFramePermissions": []
+}

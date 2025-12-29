@@ -1,0 +1,5 @@
+{
+  "name": "Zenith Kinetic Engine",
+  "description": "A state-driven visual system using explicit phase transitions and threshold-based kinetic energy simulation.",
+  "requestFramePermissions": []
+}

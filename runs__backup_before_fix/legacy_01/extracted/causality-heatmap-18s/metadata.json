@@ -1,0 +1,5 @@
+{
+  "name": "Causality Heatmap 18s",
+  "description": "A deterministic, seeded, high-performance Canvas 2D visualization featuring scalar fields, particle agents, and causality pulses over an 18-second loop.",
+  "requestFramePermissions": []
+}
