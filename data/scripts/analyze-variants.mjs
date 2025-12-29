@@ -19,13 +19,18 @@ const OUT_JSON = process.argv[5] ?? "variants_features.json";
  */
 
 function loadIgnoreList() {
-  const ignorePath = path.join(__dirname, "VARIANTS_IGNORE.json");
-  if (fs.existsSync(ignorePath)) {
-    try {
-      const config = JSON.parse(fs.readFileSync(ignorePath, "utf8"));
-      return new Set(config.variants || []);
-    } catch (e) {
-      // Игнорируем ошибки
+  // Сначала пробуем загрузить из master/, потом из локального
+  const masterIgnorePath = path.join(__dirname, "..", "..", "master", "ignore.json");
+  const localIgnorePath = path.join(__dirname, "VARIANTS_IGNORE.json");
+  
+  for (const ignorePath of [masterIgnorePath, localIgnorePath]) {
+    if (fs.existsSync(ignorePath)) {
+      try {
+        const config = JSON.parse(fs.readFileSync(ignorePath, "utf8"));
+        return new Set(config.variants || []);
+      } catch (e) {
+        // Игнорируем ошибки
+      }
     }
   }
   return new Set();
@@ -143,6 +148,20 @@ function initFeatureRow(variantName) {
     has_stateRef: false,
     setState_in_raf: false, // анти-паттерн
     has_dom_overlay_text: false, // DOM текст поверх канваса
+    no_react_state_in_loop: true, // compliance: нет setState в RAF loop
+    
+    // TRACKS & TIMELINE SYSTEM
+    has_tracks_system: false, // animateTrack или tracks. + keyframes {at:}
+    has_timeline_file: false, // Timeline.ts или timeline файл
+    has_keyframe_system: false, // keyframes с at: или value:
+    has_track_sequencing: false, // последовательность треков
+    
+    // OVERLAY & UI
+    has_overlay_component: false, // Overlay.tsx или overlay компонент
+    has_dom_overlay_div: false, // div с position absolute/fixed поверх canvas
+    has_ui_controls: false, // кнопки, слайдеры, UI элементы управления
+    has_animation_controls: false, // play/pause/stop контролы
+    has_component_separation: false, // отдельные компоненты для UI и canvas
 
     // INTEGRATOR / TIMESTEP
     has_fixed_timestep: false,
@@ -186,6 +205,9 @@ function initFeatureRow(variantName) {
     // COLORS (грубые индикаторы)
     has_teal: false,
     has_red: false,
+    
+    // COMPLIANCE DETECTION
+    uses_math_random: false, // Math.random() без детерминированного RNG
 
     // CONSTANTS
     particle_count: null,
@@ -195,7 +217,7 @@ function initFeatureRow(variantName) {
     // SIGNATURE & SCORE (заполняются после анализа)
     signature: null,
     score: null,
-    ENGINE_CLASS: null, // STABLE | SEMI | CHAOTIC
+    ENGINE_CLASS: null, // STABLE | SEMI | CHAOTIC | NON_COMPLIANT | NON_DETERMINISTIC | INVALID
 
     files_analyzed: 0,
   };
@@ -406,6 +428,104 @@ function analyzeSourceFile(sf, row, dirAbs) {
         file: fileRel,
         line,
         match: "DOM overlay text",
+        snippet: snippetAround(full, line, 3),
+        kind: "regex",
+      });
+    }
+  }
+
+  // === TRACKS & TIMELINE SYSTEM ===
+  // has_tracks_system: animateTrack или tracks. + keyframes {at:}
+  detectByRegex(
+    { row, variant, dirAbs, fileRel, fullText: full },
+    "has_tracks_system",
+    /\b(animateTrack|tracks\.)\s*\([\s\S]{0,300}\bkeyframes?\s*[:\{][\s\S]{0,200}\bat\s*:/i,
+    "animateTrack or tracks. + keyframes {at:}"
+  );
+  
+  // has_keyframe_system: keyframes с at: или value:
+  detectByRegex(
+    { row, variant, dirAbs, fileRel, fullText: full },
+    "has_keyframe_system",
+    /\bkeyframes?\s*[:\{][\s\S]{0,500}\b(at|value)\s*:/i,
+    "keyframes with at: or value:"
+  );
+  
+  // has_track_sequencing: последовательность треков (track1, track2, sequence)
+  if (/\btracks?\s*[=:]\s*\[/.test(full) && /\.(push|concat|map)\s*\(/.test(full) && !row.has_track_sequencing) {
+    markFeature(row, "has_track_sequencing", true);
+    const index = full.search(/\btracks?\s*[=:]\s*\[/);
+    if (index !== -1) {
+      const line = posToLine1(full, index);
+      recordEvent(row, {
+        variant,
+        feature: "has_track_sequencing",
+        file: fileRel,
+        line,
+        match: "tracks array with sequencing",
+        snippet: snippetAround(full, line, 3),
+        kind: "regex",
+      });
+    }
+  }
+
+  // === OVERLAY & UI ===
+  // has_overlay_component: Overlay.tsx или overlay компонент
+  detectSimple({ row, variant, dirAbs, fileRel, fullText: full }, "has_overlay_component", 
+    /\b(Overlay|OverlayComponent|UIOverlay)\s*[=:\(]/i, "Overlay component");
+  
+  // has_dom_overlay_div: div с position absolute/fixed поверх canvas
+  if (/<div[\s\S]{0,200}(absolute|fixed)/i.test(full) && /(position|style)\s*[=:]/i.test(full) && !row.has_dom_overlay_div) {
+    markFeature(row, "has_dom_overlay_div", true);
+    const index = full.search(/<div[\s\S]{0,200}(absolute|fixed)/i);
+    if (index !== -1) {
+      const line = posToLine1(full, index);
+      recordEvent(row, {
+        variant,
+        feature: "has_dom_overlay_div",
+        file: fileRel,
+        line,
+        match: "div with absolute/fixed position",
+        snippet: snippetAround(full, line, 3),
+        kind: "regex",
+      });
+    }
+  }
+  
+  // has_ui_controls: кнопки, слайдеры, UI элементы управления
+  if (/(button|slider|input|control)/i.test(full) && /(onClick|onChange|onInput)/i.test(full) && !row.has_ui_controls) {
+    markFeature(row, "has_ui_controls", true);
+    const index = full.search(/(button|slider|input|control)/i);
+    if (index !== -1) {
+      const line = posToLine1(full, index);
+      recordEvent(row, {
+        variant,
+        feature: "has_ui_controls",
+        file: fileRel,
+        line,
+        match: "UI controls (button/slider/input)",
+        snippet: snippetAround(full, line, 3),
+        kind: "regex",
+      });
+    }
+  }
+  
+  // has_animation_controls: play/pause/stop контролы
+  detectSimple({ row, variant, dirAbs, fileRel, fullText: full }, "has_animation_controls",
+    /\b(play|pause|stop|toggle)\s*[=:\(]/i, "animation controls");
+  
+  // has_component_separation: отдельные компоненты для UI и canvas
+  if (/(Canvas|Animation|Engine)\s*[=:]/i.test(full) && /(Overlay|UI|Controls)\s*[=:]/i.test(full) && !row.has_component_separation) {
+    markFeature(row, "has_component_separation", true);
+    const index = full.search(/(Canvas|Animation|Engine)\s*[=:]/i);
+    if (index !== -1) {
+      const line = posToLine1(full, index);
+      recordEvent(row, {
+        variant,
+        feature: "has_component_separation",
+        file: fileRel,
+        line,
+        match: "separate Canvas/Animation and UI components",
         snippet: snippetAround(full, line, 3),
         kind: "regex",
       });
@@ -649,6 +769,22 @@ function analyzeSourceFile(sf, row, dirAbs) {
         kind: "ast",
       });
     }
+    
+    // Math.random() - детекция для compliance
+    if (exprText === "Math.random" || exprText.endsWith(".Math.random")) {
+      row.uses_math_random = true;
+      const pos = c.getStart();
+      const line = posToLine1(full, pos);
+      recordEvent(row, {
+        variant,
+        feature: "uses_math_random",
+        file: fileRel,
+        line,
+        match: "Math.random()",
+        snippet: snippetAround(full, line),
+        kind: "ast",
+      });
+    }
   }
 
   // 2) setState inside raf/animate (анти-паттерн)
@@ -681,8 +817,17 @@ function analyzeSourceFile(sf, row, dirAbs) {
   for (const body of functionBodies) {
     if (/\bset[A-Z]\w*\s*\(/.test(body) || /\bsetState\s*\(/.test(body)) {
       row.setState_in_raf = true;
+      row.no_react_state_in_loop = false; // нарушение compliance
       break;
     }
+  }
+  
+  // Дополнительная проверка: useState + requestAnimationFrame в одном файле
+  const hasUseState = /\buseState\s*\(/.test(full);
+  const hasRAF = /\brequestAnimationFrame\b/.test(full);
+  if (hasUseState && hasRAF && !row.setState_in_raf) {
+    // Если есть useState и RAF, но setState не найден в callback - это хорошо
+    // no_react_state_in_loop уже true по умолчанию
   }
 
   // 3) pull numeric constants if present
@@ -729,6 +874,23 @@ function generateSignature(row) {
 }
 
 function classifyEngineClass(row) {
+  // HARD GATES (приоритетные проверки)
+  
+  // INVALID: setState в RAF - критическое нарушение
+  if (row.setState_in_raf) {
+    return "INVALID";
+  }
+  
+  // NON_DETERMINISTIC: использует Date.now или Math.random без детерминированного RNG
+  if (row.uses_date_now || (row.uses_math_random && !row.has_deterministic_rng)) {
+    return "NON_DETERMINISTIC";
+  }
+  
+  // NON_COMPLIANT: нет fixed timestep
+  if (!row.has_fixed_timestep) {
+    return "NON_COMPLIANT";
+  }
+  
   // STABLE: композиция стабильных признаков + нет setState в RAF
   // uses_performance_now || has_fixed_timestep || has_deterministic_rng || has_stateRef
   const hasStabilityFeature = row.uses_performance_now || 
@@ -747,37 +909,106 @@ function classifyEngineClass(row) {
   return "CHAOTIC";
 }
 
+/**
+ * Генерация compliance таблицы (PASS/FAIL по каждому HARD RULE)
+ */
+function generateComplianceTable(row) {
+  const rules = [
+    {
+      name: "Fixed Timestep",
+      pass: row.has_fixed_timestep,
+      description: "Использует фиксированный timestep для стабильной физики"
+    },
+    {
+      name: "Deterministic RNG",
+      pass: row.has_deterministic_rng,
+      description: "Использует детерминированный RNG (seed-based)"
+    },
+    {
+      name: "Performance.now",
+      pass: row.uses_performance_now,
+      description: "Использует performance.now() вместо Date.now()"
+    },
+    {
+      name: "No setState in RAF",
+      pass: row.no_react_state_in_loop && !row.setState_in_raf,
+      description: "Нет setState внутри requestAnimationFrame"
+    },
+    {
+      name: "DOM Overlay",
+      pass: row.has_dom_overlay_div || row.has_overlay_component || row.has_dom_overlay_text,
+      description: "Имеет DOM overlay поверх canvas"
+    },
+    {
+      name: "Tracks System",
+      pass: row.has_tracks_system || row.has_timeline_file,
+      description: "Имеет систему треков/таймлайна"
+    },
+  ];
+  
+  return rules;
+}
+
+function loadScoringWeights() {
+  // Загружаем веса из master/scoring.json
+  const masterScoringPath = path.join(__dirname, "..", "..", "master", "scoring.json");
+  if (fs.existsSync(masterScoringPath)) {
+    try {
+      const config = JSON.parse(fs.readFileSync(masterScoringPath, "utf8"));
+      return config.weights || {};
+    } catch (e) {
+      console.warn(`⚠️  Не удалось загрузить веса из master/scoring.json: ${e.message}`);
+    }
+  }
+  // Fallback на дефолтные веса
+  return {};
+}
+
+const SCORING_WEIGHTS = loadScoringWeights();
+
 function score(row) {
   let s = 0;
   
-  // Базовые требования
-  if (row.has_canvas_2d) s += 2;
-  if (row.has_raf) s += 2;
-  if (!row.setState_in_raf) s += 3; else s -= 5;
-
-  // Guardfolio semantics
-  if (row.has_threads) s += 2;
-  if (row.has_clusters) s += 2;
-  if (row.has_hotspots) s += 1;
-
-  // Premium look
-  if (row.has_trails) s += 2;
-  if (row.has_shadow_blur) s += 2;
-  if (row.has_gradients) s += 1;
-
-  // Stability physics
-  if (row.force_spring) s += 2;
-  if (row.force_damping_mul) s += 2;
-  if (row.force_noise_jitter) s += 1;
-
-  // Resize = production ready
-  if (row.has_resize) s += 1;
-
-  // Cancel RAF = cleanup
-  if (row.has_cancel_raf) s += 1;
-
-  // Fixed timestep = stability
-  if (row.has_fixed_timestep) s += 1;
+  // Используем веса из master/scoring.json, если доступны
+  const weights = Object.keys(SCORING_WEIGHTS).length > 0 ? SCORING_WEIGHTS : {
+    has_canvas_2d: 2,
+    has_raf: 2,
+    setState_in_raf: -5,
+    has_fixed_timestep: 1,
+    has_deterministic_rng: 0,
+    has_stateRef: 0,
+    uses_performance_now: 0,
+    uses_date_now: 0,
+    has_threads: 2,
+    has_clusters: 2,
+    has_hotspots: 1,
+    has_trails: 2,
+    has_shadow_blur: 2,
+    has_gradients: 1,
+    force_spring: 2,
+    force_damping_mul: 2,
+    force_noise_jitter: 1,
+    has_resize: 1,
+    has_cancel_raf: 1,
+  };
+  
+  // Применяем веса
+  for (const [feature, weight] of Object.entries(weights)) {
+    if (weight === 0) continue; // Пропускаем нулевые веса
+    if (row[feature] === true) {
+      s += weight;
+    }
+  }
+  
+  // Дополнительная логика для setState_in_raf (штраф применяется отдельно)
+  if (row.setState_in_raf && weights.setState_in_raf < 0) {
+    s += weights.setState_in_raf;
+  } else if (!row.setState_in_raf && weights.setState_in_raf !== undefined) {
+    // Бонус за отсутствие анти-паттерна (если не задан явно)
+    if (weights.setState_in_raf === -5) {
+      s += 3; // Дефолтный бонус
+    }
+  }
 
   return s;
 }
@@ -839,6 +1070,34 @@ function printTop(df) {
     (r) => r.has_clusters && r.has_threads && r.has_hotspots && r.has_shadow_blur && !r.setState_in_raf
   );
   console.log(premium.length ? premium.map((r) => `${r.variant} (score: ${r.score})`).join(", ") : "none");
+  
+  console.log("\n=== COMPLIANCE SUMMARY ===");
+  const complianceStats = {
+    INVALID: df.filter(r => r.ENGINE_CLASS === "INVALID").length,
+    NON_DETERMINISTIC: df.filter(r => r.ENGINE_CLASS === "NON_DETERMINISTIC").length,
+    NON_COMPLIANT: df.filter(r => r.ENGINE_CLASS === "NON_COMPLIANT").length,
+    STABLE: df.filter(r => r.ENGINE_CLASS === "STABLE").length,
+    SEMI: df.filter(r => r.ENGINE_CLASS === "SEMI").length,
+    CHAOTIC: df.filter(r => r.ENGINE_CLASS === "CHAOTIC").length,
+  };
+  for (const [cls, count] of Object.entries(complianceStats)) {
+    console.log(`${cls.padEnd(20)} ${String(count).padStart(3)}`);
+  }
+  
+  // Топ по compliance score
+  console.log("\n=== TOP-5 BY COMPLIANCE SCORE ===");
+  const byCompliance = df
+    .filter(r => r.compliance_score !== undefined)
+    .map(r => ({ variant: r.variant, compliance: r.compliance_score, total: r.compliance_total, class: r.ENGINE_CLASS }))
+    .sort((a, b) => {
+      // Сначала по compliance score, потом по классу (STABLE > SEMI > CHAOTIC > NON_COMPLIANT > NON_DETERMINISTIC > INVALID)
+      const classOrder = { STABLE: 0, SEMI: 1, CHAOTIC: 2, NON_COMPLIANT: 3, NON_DETERMINISTIC: 4, INVALID: 5 };
+      if (a.compliance !== b.compliance) return b.compliance - a.compliance;
+      return classOrder[a.class] - classOrder[b.class];
+    });
+  for (const s of byCompliance.slice(0, 5)) {
+    console.log(`${s.variant.padEnd(40)} compliance: ${s.compliance}/${s.total}  [${s.class}]`);
+  }
 }
 
 async function main() {
@@ -851,21 +1110,34 @@ async function main() {
     const variantName = path.basename(dir);
     const row = initFeatureRow(variantName);
 
-    // Приоритетный набор влияющих файлов (сужаем анализ)
+    // Рекурсивный поиск всех TS/TSX файлов с игнорированием мусора
     const patterns = [
-      "App.tsx",
-      "components/**/*.{ts,tsx}",
-      "constants.ts",
-      "utils/**/*.{ts,tsx}",
+      "**/*.{ts,tsx}",
       "!**/node_modules/**",
       "!**/dist/**",
       "!**/.next/**",
       "!**/build/**",
+      "!**/.git/**",
+      "!**/coverage/**",
+      "!**/__tests__/**",
+      "!**/*.test.{ts,tsx}",
+      "!**/*.spec.{ts,tsx}",
     ];
     const files = await fg(patterns, { cwd: dir, absolute: true });
 
-    if (files.length === 0) {
-      console.log(`  ⚠️  ${variantName}: no TS/TSX files found, skipping`);
+    // Проверка: вариант должен содержать хотя бы один из ключевых файлов
+    const hasKeyFile = files.some(f => {
+      const rel = path.relative(dir, f).replace(/\\/g, '/');
+      return rel === 'App.tsx' || 
+             rel === 'main.tsx' || 
+             rel === 'index.tsx' ||
+             rel.startsWith('src/') ||
+             rel.includes('/App.tsx') ||
+             rel.includes('/main.tsx');
+    });
+
+    if (files.length === 0 || !hasKeyFile) {
+      console.log(`  ⚠️  ${variantName}: no valid TS/TSX files found (found ${files.length} files, hasKeyFile: ${hasKeyFile}), skipping`);
       continue;
     }
 
@@ -879,6 +1151,12 @@ async function main() {
       try {
         const text = fs.readFileSync(f, "utf8");
         project.createSourceFile(f, text, { overwrite: true });
+        
+        // Проверка имени файла для has_timeline_file
+        const fileName = path.basename(f).toLowerCase();
+        if (fileName.includes("timeline") && (fileName.endsWith(".ts") || fileName.endsWith(".tsx"))) {
+          markFeature(row, "has_timeline_file", true);
+        }
       } catch (err) {
         console.warn(`  ⚠️  ${variantName}: failed to read ${f}: ${err.message}`);
       }
@@ -899,6 +1177,11 @@ async function main() {
     row.signature = generateSignature(row);
     row.score = score(row);
     row.ENGINE_CLASS = classifyEngineClass(row);
+    
+    // Генерация compliance таблицы
+    row.compliance = generateComplianceTable(row);
+    row.compliance_score = row.compliance.filter(r => r.pass).length;
+    row.compliance_total = row.compliance.length;
 
     results.push(row);
     console.log(`  ✓ ${variantName}: ${row.files_analyzed} files, score: ${row.score}`);
