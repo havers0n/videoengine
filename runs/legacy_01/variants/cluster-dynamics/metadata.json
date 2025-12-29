@@ -1,0 +1,5 @@
+{
+  "name": "Cluster Dynamics",
+  "description": "High-performance fixed-timestep particle simulation using spatial hashing and clusters. Features seeded RNG, inter-cluster repulsion, intra-cluster cohesion, and dynamic trails.",
+  "requestFramePermissions": []
+}

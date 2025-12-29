@@ -1,0 +1,5 @@
+{
+  "name": "Deterministic Canvas Physics",
+  "description": "A high-performance, deterministic 2D physics engine using a fixed timestep accumulator pattern, seeded RNG, and React refs for state management.",
+  "requestFramePermissions": []
+}

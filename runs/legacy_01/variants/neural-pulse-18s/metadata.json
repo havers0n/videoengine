@@ -1,0 +1,5 @@
+{
+  "name": "Neural Pulse 18s",
+  "description": "A high-performance, deterministic Canvas 2D visualization simulating neural clusters and connections with an 18-second looped lifecycle.",
+  "requestFramePermissions": []
+}

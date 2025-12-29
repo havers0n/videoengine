@@ -1,0 +1,5 @@
+{
+  "name": "Deterministic Flux Engine",
+  "description": "A high-performance, fixed-timestep Canvas2D animation engine featuring deterministic particle physics, neon visual aesthetics, and precise state management without React render loop overhead.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Emergent Signal Visualization",
+  "description": "A real-time generative animation representing a self-evolving system transitioning from chaos to coherence.",
+  "requestFramePermissions": []
+}

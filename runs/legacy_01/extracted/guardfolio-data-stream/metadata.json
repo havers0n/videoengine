@@ -1,0 +1,5 @@
+{
+  "name": "Guardfolio Data Stream",
+  "description": "A high-energy particle simulation visualizing data flow states: nominal flow, turbulence detection, and guided stabilization.",
+  "requestFramePermissions": []
+}

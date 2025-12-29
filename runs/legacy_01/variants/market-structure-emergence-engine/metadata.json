@@ -1,0 +1,5 @@
+{
+  "name": "Market Structure Emergence Engine",
+  "description": "A high-performance Canvas2D generative engine visualizing complex market correlations, sector clustering, and emergent instabilities using spring-damping physics and real-time noise jitter.",
+  "requestFramePermissions": []
+}

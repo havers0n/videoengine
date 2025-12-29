@@ -1,0 +1,5 @@
+{
+  "name": "Deterministic Physics Engine",
+  "description": "A high-performance, deterministic 2D physics simulation using fixed-timestep integration and render interpolation. No randomness, 100% reproducible.",
+  "requestFramePermissions": []
+}

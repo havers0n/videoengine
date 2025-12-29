@@ -1,0 +1,5 @@
+{
+  "name": "Aetheris: Hybrid Simulation Engine",
+  "description": "A sophisticated particle simulation combining deterministic physics, controlled noise injection, and emergent clustering, featuring real-time AI observation and dynamic visual stress mapping.",
+  "requestFramePermissions": []
+}

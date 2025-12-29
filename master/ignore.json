@@ -1,0 +1,22 @@
+{
+  "variants": [
+    "canvas-2-d-simulation",
+    "deterministic-flux-engine (1)",
+    "verlet-threads (1)",
+    "vite-react-canvas-animation",
+    "enginepromt"
+  ],
+  "patterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.next/**",
+    "**/build/**",
+    "**/.git/**",
+    "**/coverage/**",
+    "**/__tests__/**",
+    "**/*.test.{ts,tsx}",
+    "**/*.spec.{ts,tsx}"
+  ],
+  "notes": "Глобальный список вариантов и паттернов для исключения из анализа. Версионируется вместе с master dataset."
+}
+

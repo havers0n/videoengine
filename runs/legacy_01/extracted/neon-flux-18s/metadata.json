@@ -1,0 +1,5 @@
+{
+  "name": "Neon Flux 18s",
+  "description": "A high-performance, deterministic generative art visualizer using Canvas2D. Features seeded RNG, event-driven particle systems, and neon aesthetics.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Deterministic Canvas Scanner",
+  "description": "High-performance Canvas2D visualization featuring expanding scan rings, risk hotspots, and dynamic connecting threads using seeded deterministic RNG.",
+  "requestFramePermissions": []
+}

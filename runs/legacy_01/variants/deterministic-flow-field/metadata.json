@@ -1,0 +1,5 @@
+{
+  "name": "Deterministic Flow Field",
+  "description": "A high-performance, deterministic 2D flow field animation using React, Canvas, and seeded RNG. Features particle trails, hotspots, and an 18-second perfect loop.",
+  "requestFramePermissions": []
+}

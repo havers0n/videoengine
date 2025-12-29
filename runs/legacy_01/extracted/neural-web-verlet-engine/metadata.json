@@ -1,0 +1,5 @@
+{
+  "name": "Neural Web Verlet Engine",
+  "description": "A high-performance, deterministic Verlet integration physics engine visualizing dynamic constraints (threads) that break and reform. Features seeded RNG, neon aesthetics, and trail effects.",
+  "requestFramePermissions": []
+}
